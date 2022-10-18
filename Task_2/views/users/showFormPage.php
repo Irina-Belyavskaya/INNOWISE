@@ -1,0 +1,31 @@
+<h1>Form to add user</h1>
+<form action="../../index.php" method="post" class="form-add">
+  <div class="form-group">
+    <label for="name">Your first and last name</label>
+    <input type="text" name="name" id="name" class="form-control-sm" placeholder="First and last name" required>
+  </div>
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" name="email" class="form-control-sm" id="email" placeholder="Email" required>
+  </div>
+  <label for="gender" class="mt-3">
+      <select class="selectpicker btn btn-primary btn-sm" name="gender" id="gender" required>
+          <option value="gender" selected>Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+      </select>
+  </label>
+  <label for="status" class="mt-3">
+      <select class="selectpicker btn btn-primary btn-sm" name="status" id="status" required>
+          <option value="status" selected>Status</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+      </select>
+  </label>
+  <div class="form-group">
+    <button type="submit" name="submit" class="btn btn-primary btn-submit add-btn" >Add</button>
+  </div>
+</form>
+<script type="module" src="views/js/ValidationClass.js"></script>
+<script type="module" src="views/js/funcForValidation.js"></script>
+<script type="module" src="views/js/addValidation.js"></script>
