@@ -21,7 +21,7 @@ class UsersController extends Controller
         }
     }
 
-    public function showFormAction() {
+    public function showAddAction() {
         $this->view->render('Add user');
     }
 

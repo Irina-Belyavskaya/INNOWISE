@@ -19,15 +19,15 @@
             <?php endforeach ;?>
             <td>
                 <div class="options">
-                    <a href="#" class="btn btn-primary delete-btn" data-id="<?=$record[0]?>"><span>Delete user</span></a>
+                    <a href="#" class="btn btn-primary delete-btn mb-1" data-id="<?=$record[0]?>"><span>Delete user</span></a>
                     <a href="#" class="btn btn-primary change-btn" data-id="<?=$record[0]?>"><span>Modify user information</span></a>
                 </div>
             </td>
         </tr>
     <?php endforeach ;?>
 </table>
-<div>
-    <a href="showForm" class="btn btn-primary btn-add" role="button"><span>Add user</span></a>
+<div class="add-btn-main">
+    <a href="showAdd" class="btn btn-primary btn-add" role="button"><span>Add user</span></a>
 </div>
 <!-- Modal window -->
 <div class="modal fade" id="modal" tabindex="-1">

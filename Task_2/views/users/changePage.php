@@ -1,11 +1,11 @@
 <h1>Change user information</h1>
 <form action="update" method="post" class="form-change">
     <input type="hidden" name="id_user" id="id_user" value="<?=$id?>">
-    <label for="name">User first and last name</label>
+    <label for="name" class="input-label">User first and last name</label>
     <input type="text" name="name" id="name" class="form-control-sm" value="<?=$name?>">
     </div>
     <div class="form-group">
-    <label for="email">Email address</label>
+    <label for="email" class="input-label">Email address</label>
     <input type="email" name="email" class="form-control-sm" id="email" value="<?=$email?>">
     </div>
     <label for="gender" class="mt-3">

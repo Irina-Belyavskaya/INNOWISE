@@ -38,6 +38,8 @@ h1:hover {
     transition: all 0.5s;
 }
 /*///////////////Add user//////////////////////////*/
+/*label[for="name"], label[for="email"]*/
+
 .form-group {
     margin-top: 20px;
 }
@@ -63,4 +65,29 @@ table {
 .error {
     color: red;
     border: 5px solid red;
+}
+
+/*Responsive*/
+
+
+/* 992px - 1200px */
+@media screen and (max-width: 1200px) {
+
+}
+
+/* 768px - 992px */
+@media screen and (max-width: 992px) {
+
+}
+
+/* 576px - 768px */
+@media screen and (max-width: 768px) {
+
+}
+
+/* 320px - 576px */
+@media screen and (max-width: 576px) {
+    .input-label {
+        display: block;
+    }
 }

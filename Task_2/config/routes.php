@@ -12,9 +12,9 @@ return [
         'controller' => 'users',
         'action' => 'add'
     ],
-    $baseUrl . '/showForm' => [
+    $baseUrl . '/showAdd' => [
         'controller' => 'users',
-        'action' => 'showForm'
+        'action' => 'showAdd'
     ],
     $baseUrl . '/change' => [
         'controller' => 'users',
