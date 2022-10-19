@@ -15,7 +15,8 @@ class Users extends Model
     }
 
     public function addUser($name,$email,$gender,$status) {
-        if (!$this->validation->checkUser($email, $name, $gender, $status))
+        $users = $this->getRecords();
+        if (!$this->validation->checkUser($email, $name, $gender, $status) || !$this->validation->isUniqEmail($users, $email))
             return;
         try {
             $this->database->addRecordToDB($name,$email,$gender,$status);
@@ -33,7 +34,8 @@ class Users extends Model
     }
 
     public function changeUserInfo($name,$email,$gender,$status,$id) {
-        if (!$this->validation->checkUser($email, $name, $gender, $status,(int)$id))
+        $users = $this->getRecords();
+        if (!$this->validation->checkUser($email, $name, $gender, $status,(int)$id) || !$this->validation->isUniqEmail($users, $email))
             return;
         try {
             $this->database->editRecordInDB($name, $email, $gender, $status, $id);

@@ -35,4 +35,12 @@ class Validation
         }
         return true;
     }
+
+    public function isUniqEmail($users, $email): bool {
+        foreach ($users as $user) {
+            if ($user[2] === $email)
+                return false;
+        }
+        return true;
+    }
 }
