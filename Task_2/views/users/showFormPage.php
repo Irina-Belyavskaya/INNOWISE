@@ -1,5 +1,5 @@
 <h1>Form to add user</h1>
-<form action="../../index.php" method="post" class="form-add">
+<form action="add" method="post" class="form-add">
   <div class="form-group">
     <label for="name">Your first and last name</label>
     <input type="text" name="name" id="name" class="form-control-sm" placeholder="First and last name" required>

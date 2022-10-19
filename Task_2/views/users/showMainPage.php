@@ -27,7 +27,7 @@
     <?php endforeach ;?>
 </table>
 <div>
-    <a href="../../index.php" class="btn btn-primary btn-add" role="button"><span>Add user</span></a>
+    <a href="showForm" class="btn btn-primary btn-add" role="button"><span>Add user</span></a>
 </div>
 <!-- Modal window -->
 <div class="modal fade" id="modal" tabindex="-1">
