@@ -35,7 +35,7 @@ class WorkWithUsers
         if (!$result) {
             throw new Exception('Error on sql query execution');
         }
-        return mysqli_fetch_all($result);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
     public function editRecordInDB($name,$email,$gender,$status,$id) {

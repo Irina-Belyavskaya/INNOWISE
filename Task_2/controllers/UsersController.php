@@ -28,7 +28,7 @@ class UsersController extends Controller
     public function changeAction() {
         $user = $this->model->findRecord($_GET['id_user']);
         if ($user) {
-            $vars = ['id' => $user[0] ,'name' => $user[1], 'email' => $user[2], 'gender' => $user[3], 'status' => $user[4]];
+            $vars = ['id' => $user['id_user'] ,'name' => $user['FIO'], 'email' => $user['Email'], 'gender' => $user["Gender"], 'status' => $user['Status']];
             $this->view->render('Change user information', $vars);
         } else {
             View::errorCode(404);

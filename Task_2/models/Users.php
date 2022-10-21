@@ -16,7 +16,7 @@ class Users extends Model
 
     public function addUser($name,$email,$gender,$status) {
         $users = $this->getRecords();
-        if (!$this->validation->checkUser($email, $name, $gender, $status) || !$this->validation->isUniqEmail($users, $email))
+        if (!$this->validation->checkUser($email, $name, $gender, $status) || !$this->validation->isUniqEmail($users, $email,0))
             return;
         try {
             $this->database->addRecordToDB($name,$email,$gender,$status);
@@ -26,8 +26,6 @@ class Users extends Model
     }
 
     public function deleteUser($id): bool {
-        if (!$this->validation->checkId($id))
-            return false;
         if ($this->database->deleteRecordFromDB($id) === false)
             return false;
         return true;
@@ -35,7 +33,7 @@ class Users extends Model
 
     public function changeUserInfo($name,$email,$gender,$status,$id) {
         $users = $this->getRecords();
-        if (!$this->validation->checkUser($email, $name, $gender, $status,(int)$id) || !$this->validation->isUniqEmail($users, $email))
+        if (!$this->validation->checkUser($email, $name, $gender, $status) || !$this->validation->isUniqEmail($users, $email,$id))
             return;
         try {
             $this->database->editRecordInDB($name, $email, $gender, $status, $id);
@@ -52,7 +50,7 @@ class Users extends Model
             return [];
         }
         foreach ($users as $user) {
-            if ($user[0] === $id)
+            if ($user['id_user'] === $id)
                 return $user;
         }
         return [];

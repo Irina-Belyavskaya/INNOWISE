@@ -19,8 +19,8 @@
             <?php endforeach ;?>
             <td>
                 <div class="options">
-                    <a href="#" class="btn btn-primary delete-btn mb-1" data-id="<?=$record[0]?>"><span>Delete user</span></a>
-                    <a href="#" class="btn btn-primary change-btn" data-id="<?=$record[0]?>"><span>Modify user information</span></a>
+                    <a href="#" class="btn btn-primary delete-btn mb-1" data-id="<?=$record['id_user']?>"><span>Delete user</span></a>
+                    <a href="#" class="btn btn-primary change-btn" data-id="<?=$record['id_user']?>"><span>Modify user information</span></a>
                 </div>
             </td>
         </tr>

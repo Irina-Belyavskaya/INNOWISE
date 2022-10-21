@@ -4,11 +4,7 @@ namespace lib;
 
 class Validation
 {
-    public function checkUser( $email, $name, $gender, $status, $id = 1): bool {
-        if (!$this->checkId($id)) {
-            return false;
-        }
-
+    public function checkUser( $email, $name, $gender, $status): bool {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return false;
         }
@@ -29,16 +25,9 @@ class Validation
         return true;
     }
 
-    public function checkId($id): bool {
-        if (!filter_var($id, FILTER_VALIDATE_INT)) {
-            return false;
-        }
-        return true;
-    }
-
-    public function isUniqEmail($users, $email): bool {
+    public function isUniqEmail($users, $email, $id): bool {
         foreach ($users as $user) {
-            if ($user[2] === $email)
+            if ($user['Email'] === $email && $user['id_user'] != $id)
                 return false;
         }
         return true;
