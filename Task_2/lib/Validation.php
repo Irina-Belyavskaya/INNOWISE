@@ -26,7 +26,6 @@ class Validation
     }
 
     public function isUniqEmail($email, $database): bool {
-        //$config = $GLOBALS['configInfo'];
         $tableName = \models\User::TABLENAME;
         $sqlRequest = "SELECT * FROM `$tableName` WHERE `Email` = '$email';";
         $result = $database->sendRequest($sqlRequest);

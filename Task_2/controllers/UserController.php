@@ -3,6 +3,7 @@
 namespace controllers;
 
 use core\Controller;
+use core\Database;
 use core\View;
 class UserController extends Controller
 {
@@ -39,10 +40,12 @@ class UserController extends Controller
         if (!empty($_POST)) {
             $user = $this->model->findRecord($_POST['id_user']);
             if ($user['Email'] !== $_POST['email']) {
-                if ($this->model->checkUniqEmail($_POST['email'])) {
-                    $this->model->changeUserInfo($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status'], $_POST['id_user']);
+                if (!$this->model->checkUniqEmail($_POST['email'])) {
+                    $this->view->redirect('/' . $GLOBALS['baseUrl']);
+                    return;
                 }
             }
+            $this->model->changeUserInfo($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status'], $_POST['id_user']);
             $this->view->redirect('/' . $GLOBALS['baseUrl']);
         }
     }

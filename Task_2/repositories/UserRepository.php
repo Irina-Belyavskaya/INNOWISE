@@ -17,19 +17,19 @@ class UserRepository
         $this->tableName = $config['tableName'];
     }
 
-    public function addRecordToDB($name, $email, $gender, $status) {
+    public function addUserToDB($name, $email, $gender, $status) {
         $sqlRequest = "INSERT INTO `$this->tableName` (`id_user`, `FIO`, `Email`, `Gender`, `Status`) VALUES (NULL, '$name','$email', '$gender', '$status');";
         if (!mysqli_query($this->database,$sqlRequest)) {
             throw new Exception('Error on sql query execution');
         }
     }
 
-    public function deleteRecordFromDB($id) {
+    public function deleteUserFromDB($id) {
         $sqlRequest = "DELETE FROM `$this->tableName` WHERE `$this->tableName`.`id_user` = '$id';";
         return mysqli_query($this->database,$sqlRequest);
     }
 
-    public function getRecordsFromDB(): array {
+    public function getUsersFromDB(): array {
         $sqlRequest = "SELECT * FROM `$this->tableName`;";
         $result = mysqli_query($this->database,$sqlRequest);
         if (!$result) {
@@ -38,14 +38,14 @@ class UserRepository
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
-    public function editRecordInDB($name,$email,$gender,$status,$id) {
+    public function editUserInDB($name,$email,$gender,$status,$id) {
         $sqlRequest = "UPDATE `$this->tableName` SET `FIO` = '$name', `Email` = '$email', `Gender` = '$gender', `Status` = '$status' WHERE `$this->tableName`.`id_user` = '$id';";
         if (!mysqli_query($this->database,$sqlRequest)) {
             throw new Exception('Error on sql query execution');
         }
     }
 
-    public function sendRequest($sqlRequest) {
+    public function sendRequest($sqlRequest): array {
         $result = mysqli_query($this->database,$sqlRequest);
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }

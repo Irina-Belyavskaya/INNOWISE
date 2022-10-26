@@ -10,7 +10,7 @@ class User extends Model
 
     public function getRecords(): array {
         try {
-            return $this->database->getRecordsFromDB();
+            return $this->database->getUsersFromDB();
         } catch (\Exception $exception) {
             echo 'Caught exception: ',  $exception->getMessage(), "\n";
             return [];
@@ -22,14 +22,14 @@ class User extends Model
         if (!$this->validation->checkUser($email, $name, $gender, $status) || !$this->validation->isUniqEmail($email,$this->database))
             return;
         try {
-            $this->database->addRecordToDB($name,$email,$gender,$status);
+            $this->database->addUserToDB($name,$email,$gender,$status);
         } catch (\Exception $exception) {
             echo 'Caught exception: ',  $exception->getMessage(), "\n";
         }
     }
 
     public function deleteUser($id): bool {
-        if ($this->database->deleteRecordFromDB($id) === false)
+        if ($this->database->deleteUserFromDB($id) === false)
             return false;
         return true;
     }
@@ -39,7 +39,7 @@ class User extends Model
         if (!$this->validation->checkUser($email, $name, $gender, $status))
             return;
         try {
-            $this->database->editRecordInDB($name, $email, $gender, $status, $id);
+            $this->database->editUserInDB($name, $email, $gender, $status, $id);
         } catch (\Exception $exception) {
             echo 'Caught exception: ',  $exception->getMessage(), "\n";
         }
@@ -53,7 +53,7 @@ class User extends Model
 
     public function findRecord($id) {
         try {
-            $users = $this->database->getRecordsFromDB();
+            $users = $this->database->getUsersFromDB();
         } catch (\Exception $exception) {
             echo 'Caught exception: ',  $exception->getMessage(), "\n";
             return [];
