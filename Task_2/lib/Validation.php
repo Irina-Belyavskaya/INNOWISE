@@ -4,7 +4,7 @@ namespace lib;
 
 class Validation
 {
-    public function checkUser( $email, $name, $gender, $status): bool {
+    public function checkUser($email, $name, $gender, $status): bool {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return false;
         }
@@ -25,10 +25,13 @@ class Validation
         return true;
     }
 
-    public function isUniqEmail($users, $email, $id): bool {
-        foreach ($users as $user) {
-            if ($user['Email'] === $email && $user['id_user'] != $id)
-                return false;
+    public function isUniqEmail($email, $database): bool {
+        //$config = $GLOBALS['configInfo'];
+        $tableName = \models\User::TABLENAME;
+        $sqlRequest = "SELECT * FROM `$tableName` WHERE `Email` = '$email';";
+        $result = $database->sendRequest($sqlRequest);
+        if ($result) {
+            return false;
         }
         return true;
     }

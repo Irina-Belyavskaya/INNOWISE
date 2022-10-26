@@ -86,11 +86,16 @@ table {
 
 /* 576px - 768px */
 @media screen and (max-width: 768px) {
-
+    body {
+        width: fit-content;
+    }
 }
 
 /* 320px - 576px */
 @media screen and (max-width: 576px) {
+    body {
+        width: fit-content;
+    }
     .input-label {
         display: block;
     }

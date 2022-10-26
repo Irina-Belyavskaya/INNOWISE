@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `users`
+-- Структура таблицы `user`
 --
 
 CREATE TABLE `users` (
@@ -36,7 +36,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Таблица пользователей';
 
 --
--- Дамп данных таблицы `users`
+-- Дамп данных таблицы `user`
 --
 
 INSERT INTO `users` (`id_user`, `FIO`, `Email`, `Gender`, `Status`) VALUES
@@ -55,7 +55,7 @@ INSERT INTO `users` (`id_user`, `FIO`, `Email`, `Gender`, `Status`) VALUES
 --
 
 --
--- Индексы таблицы `users`
+-- Индексы таблицы `user`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`);
@@ -65,7 +65,7 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT для таблицы `users`
+-- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `users`
   MODIFY `id_user` int NOT NULL AUTO_INCREMENT COMMENT 'идентификатор', AUTO_INCREMENT=70;

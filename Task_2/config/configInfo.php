@@ -9,4 +9,4 @@ $configInfo = ['hostname' => 'localhost',
     'username' => 'root',
     'password' => '28041972IraBel!',
     'database' => 'innowise',
-    'tableName' => 'users'];
+    'tableName' => 'user'];

@@ -3,10 +3,10 @@ namespace repositories;
 
 use core\View;
 use Exception;
-class WorkWithUsers
+class UserRepository
 {
     protected $database;
-    protected $tableName;
+    protected $tableName = 'user';
 
     public function __construct() {
         $config = $GLOBALS['configInfo'];
@@ -43,5 +43,10 @@ class WorkWithUsers
         if (!mysqli_query($this->database,$sqlRequest)) {
             throw new Exception('Error on sql query execution');
         }
+    }
+
+    public function sendRequest($sqlRequest) {
+        $result = mysqli_query($this->database,$sqlRequest);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 }

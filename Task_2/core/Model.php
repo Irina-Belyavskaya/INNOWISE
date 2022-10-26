@@ -2,7 +2,7 @@
 
 namespace core;
 
-use repositories\WorkWithUsers;
+use repositories\UserRepository;
 use lib\Validation;
 abstract class Model
 {
@@ -10,7 +10,7 @@ abstract class Model
     public $validation;
 
     public function __construct() {
-        $this->database = new WorkWithUsers();
+        $this->database = new UserRepository();
         $this->validation = new Validation();
     }
 }

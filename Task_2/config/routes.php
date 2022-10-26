@@ -5,27 +5,27 @@ require_once 'configInfo.php';
 $baseUrl = $GLOBALS['baseUrl'];
 return [
     $baseUrl => [
-        'controller' => 'users',
-        'action' => 'showMain'
+        'controller' => 'user',
+        'action' => 'index'
+    ],
+    $baseUrl . '/create' => [
+        'controller' => 'user',
+        'action' => 'create'
     ],
     $baseUrl . '/add' => [
-        'controller' => 'users',
+        'controller' => 'user',
         'action' => 'add'
     ],
-    $baseUrl . '/showAdd' => [
-        'controller' => 'users',
-        'action' => 'showAdd'
-    ],
     $baseUrl . '/change' => [
-        'controller' => 'users',
+        'controller' => 'user',
         'action' => 'change'
     ],
     $baseUrl . '/update' => [
-        'controller' => 'users',
+        'controller' => 'user',
         'action' => 'update'
     ],
     $baseUrl . '/delete' => [
-        'controller' => 'users',
+        'controller' => 'user',
         'action' => 'delete'
     ],
 ];

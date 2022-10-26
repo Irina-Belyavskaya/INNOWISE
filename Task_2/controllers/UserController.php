@@ -4,25 +4,25 @@ namespace controllers;
 
 use core\Controller;
 use core\View;
-class UsersController extends Controller
+class UserController extends Controller
 {
-    public function showMainAction() {
+    public function indexAction() {
         $vars = ['records' => $this->model->getRecords()];
-         if (!$vars) {
-             View::errorCode(500);
-         }
-        $this->view->render('Users Page', $vars);
+        if (!$vars) {
+            View::errorCode(500);
+        }
+        $this->view->render('User Page', $vars);
     }
 
-    public function addAction () {
+    public function addAction() {
+        $this->view->render('Add user');
+    }
+
+    public function createAction () {
         if (!empty($_POST)) {
             $this->model->addUser($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status']);
             $this->view->redirect('/' . $GLOBALS['baseUrl']);
         }
-    }
-
-    public function showAddAction() {
-        $this->view->render('Add user');
     }
 
     public function changeAction() {
@@ -37,7 +37,12 @@ class UsersController extends Controller
 
     public function updateAction() {
         if (!empty($_POST)) {
-            $this->model->changeUserInfo($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status'], $_POST['id_user']);
+            $user = $this->model->findRecord($_POST['id_user']);
+            if ($user['Email'] !== $_POST['email']) {
+                if ($this->model->checkUniqEmail($_POST['email'])) {
+                    $this->model->changeUserInfo($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status'], $_POST['id_user']);
+                }
+            }
             $this->view->redirect('/' . $GLOBALS['baseUrl']);
         }
     }
