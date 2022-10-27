@@ -26,8 +26,10 @@ class Router
     public function match(): bool {
         // Get url
         $url = trim($_SERVER['REQUEST_URI'],'/');
+
         $strings = explode('?',$url);
-        $url = $strings[0];
+        $url = trim($strings[0],'/');
+        //$url = $strings[0];
 
         // Read parameters in url
         if (count($strings) !== 1) {

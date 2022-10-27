@@ -47,6 +47,9 @@ class UserRepository
 
     public function sendRequest($sqlRequest): array {
         $result = mysqli_query($this->database,$sqlRequest);
+        if (!$result) {
+            throw new Exception('Error on sql query execution');
+        }
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 }

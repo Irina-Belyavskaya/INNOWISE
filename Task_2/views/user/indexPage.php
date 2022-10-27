@@ -26,9 +26,12 @@
         </tr>
     <?php endforeach ;?>
 </table>
-<div class="add-btn-main">
+<div class="wrap-btn">
+    <a href="#" class="btn-nav btn-nav-left" role="button"><i class="fa fa-arrow-left"></i></a>
     <a href="add" class="btn btn-primary btn-add" role="button"><span>Add user</span></a>
+    <a href="#" class="btn-nav btn-nav-right" role="button"><i class="fa fa-arrow-right"></i></a>
 </div>
+<div id="count" data-count="<?=$count?>" data-current="<?=$currentPage?>"></div>
 <!-- Modal window -->
 <div class="modal fade" id="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -45,5 +48,6 @@
         </div>
     </div>
 </div>
+<script src="views/js/pagination.js"></script>
 <script type="module" src="views/js/deleteUser.js"></script>
 <script type="module" src="views/js/changeInfo.js"></script>

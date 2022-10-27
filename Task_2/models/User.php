@@ -8,7 +8,7 @@ class User extends Model
 
     const TABLENAME = 'user';
 
-    public function getRecords(): array {
+    public function getUsers(): array {
         try {
             return $this->database->getUsersFromDB();
         } catch (\Exception $exception) {
@@ -51,7 +51,7 @@ class User extends Model
         return true;
     }
 
-    public function findRecord($id) {
+    public function findUser($id) {
         try {
             $users = $this->database->getUsersFromDB();
         } catch (\Exception $exception) {
@@ -63,5 +63,27 @@ class User extends Model
                 return $user;
         }
         return [];
+    }
+
+    public function getLimitUsers($from, $limit) : array {
+        try {
+            $tableName = self::TABLENAME;
+            $sqlRequest = "SELECT * FROM `$tableName` WHERE id_user>0 ORDER BY id_user DESC LIMIT ".$from.",".$limit.";";
+            return $this->database->sendRequest($sqlRequest);
+        } catch (\Exception $exception) {
+            echo 'Caught exception: ',  $exception->getMessage(), "\n";
+            return [];
+        }
+    }
+
+    public function getNumberOfUsers() {
+        try {
+            $tableName = self::TABLENAME;
+            $sqlRequest = "SELECT COUNT(*) as count FROM `$tableName`;";
+            return $this->database->sendRequest($sqlRequest)[0]['count'];
+        } catch (\Exception $exception) {
+            echo 'Caught exception: ',  $exception->getMessage(), "\n";
+            return [];
+        }
     }
 }

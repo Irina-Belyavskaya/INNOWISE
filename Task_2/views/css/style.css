@@ -18,10 +18,35 @@ h1 {
 }
 
 .btn-add {
-    width: 60%;
-    font-size: 1.5rem;
+    width: 40%;
+}
+
+.btn-nav {
+    color: azure;
+}
+
+.wrap-btn {
+    display: flex;
+    justify-content: space-around;
     margin-bottom: 100px;
 }
+
+.wrap-btn>a {
+    font-size: 1.75rem;
+}
+
+.isDisabled {
+    color: currentColor;
+    opacity: 0.5;
+}
+
+.btn-nav:not(.isDisabled):hover {
+    transform: scale(1.2);
+    color: #0d6efd;
+    transition: all 0.5s;
+}
+
+
 
 h1:hover {
     transform: scale(1.3);
@@ -33,10 +58,11 @@ h1:hover {
     transition: all 0.5s;
 }
 
-.btn:not(:hover), h1:not(:hover) {
+.btn:not(:hover), h1:not(:hover),.btn-nav:not(:hover)  {
     transform: scale(1);
     transition: all 0.5s;
 }
+
 /*///////////////Add user//////////////////////////*/
 .form-group {
     margin-top: 20px;
