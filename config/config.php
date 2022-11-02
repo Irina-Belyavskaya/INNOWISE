@@ -2,7 +2,7 @@
 namespace config;
 
 global $baseUrl;
-$baseUrl = 'INNOWISE/Task_2';
+$baseUrl = 'INNOWISE';
 
 global $configInfo;
 $configInfo = ['hostname' => 'localhost',

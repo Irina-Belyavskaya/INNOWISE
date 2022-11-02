@@ -1,5 +1,5 @@
 <h1>Change user information</h1>
-<form action="update" method="post" class="form-change">
+<form action="../../index.php" method="post" class="form-change">
     <input type="hidden" name="id_user" id="id_user" value="<?=$id?>">
     <label for="name" class="input-label">User first and last name</label>
     <input type="text" name="name" id="name" class="form-control-sm" value="<?=$name?>">
