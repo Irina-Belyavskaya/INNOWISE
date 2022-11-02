@@ -4,7 +4,7 @@ namespace lib;
 
 class Validation
 {
-    public function checkUser($email, $name, $gender, $status): bool {
+    public function checkUser($email, $name, $gender, $status) {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return false;
         }
@@ -25,13 +25,18 @@ class Validation
         return true;
     }
 
-    public function isUniqEmail($email, $database): bool {
+    public function isUniqEmail($email, $database,$connectionToDB) {
         $tableName = \models\User::TABLENAME;
         $sqlRequest = "SELECT * FROM `$tableName` WHERE `Email` = '$email';";
-        $result = $database->sendRequest($sqlRequest);
-        if ($result) {
+        try {
+            $result = mysqli_fetch_all($database->sendRequest($connectionToDB, $sqlRequest));
+            if ($result) {
+                return false;
+            }
+            return true;
+        } catch (\Exception $exception) {
+            echo 'Caught exception: ',  $exception->getMessage(), "\n";
             return false;
         }
-        return true;
     }
 }

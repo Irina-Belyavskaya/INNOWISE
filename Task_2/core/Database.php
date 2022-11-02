@@ -32,44 +32,6 @@ class Database
         return $database;
     }
 
-    public function getAllRecords($database,$tableName) : array {
-        try {
-            $result = $this->sendRequest($database, "SELECT * FROM {$tableName}");
-        } catch (Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
-            return [];
-        }
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-
-    public function deleteRecord($database,$tableName,$idName,$idValue) {
-        try {
-            $result = $this->sendRequest($database,"DELETE FROM `$tableName` WHERE `$tableName`.`$idName` = '$idValue';");
-        } catch (Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
-        }
-    }
-
-    public function getRow($database,$tableName,$idName,$idValue): array {
-        try {
-            $result = $this->sendRequest($database, "SELECT * FROM `$tableName` WHERE `$idName`={$idValue};");
-        } catch (Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
-            return [];
-        }
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-
-    public function getColumn($database,$tableName,$columnName) {
-        try {
-            $result = $this->sendRequest($database, "SELECT {$columnName} FROM `$tableName`;");
-        } catch (Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
-            return [];
-        }
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-
     public function sendRequest($database, $sqlRequest) {
         $result = mysqli_query($database,$sqlRequest);
         if (!$result) {

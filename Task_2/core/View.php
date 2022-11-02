@@ -14,8 +14,6 @@ class View
     }
 
     public function render($title, $vars = []) {
-        $this->path = $this->path . 'Page';
-
         // Imports variables from an array into the current symbol table
         extract($vars);
         $path = 'views/' . $this->path . '.php';

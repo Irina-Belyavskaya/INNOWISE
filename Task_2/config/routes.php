@@ -1,6 +1,6 @@
 <?php
 namespace config;
-require_once 'configInfo.php';
+require_once 'config.php';
 
 $baseUrl = $GLOBALS['baseUrl'];
 return [

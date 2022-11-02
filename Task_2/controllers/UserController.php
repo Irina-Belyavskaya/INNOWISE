@@ -8,6 +8,15 @@ use core\View;
 class UserController extends Controller
 {
     public function indexAction() {
+        $result = $this->pagination();
+        $pageInfo = ['records' => $this->model->getLimitUsers($result['from'], $result['limit']), 'count' => $result['count'], 'currentPage' => $result['page']];
+        if (!$pageInfo) {
+            View::errorCode(500);
+        }
+        $this->view->render('User Page', $pageInfo);
+    }
+
+    public function pagination() {
         // Get current page
         if ($_GET) {
             $page = $_GET['page'];
@@ -18,12 +27,8 @@ class UserController extends Controller
         // Get users for current page
         $limit = 4;
         $from = ($page - 1) * $limit;
-        $count = ceil($this->model->getNumberOfUsers() / $limit);
-        $vars = ['records' => $this->model->getLimitUsers($from, $limit), 'count' => $count, 'currentPage' => $page];
-        if (!$vars) {
-            View::errorCode(500);
-        }
-        $this->view->render('User Page', $vars);
+        $count = ceil($this->model->getUsersCount() / $limit);
+        return ['from' => $from, 'limit' => $limit, 'count' => $count, 'page' => $page];
     }
 
     public function addAction() {
@@ -40,8 +45,8 @@ class UserController extends Controller
     public function changeAction() {
         $user = $this->model->findUser($_GET['id_user']);
         if ($user) {
-            $vars = ['id' => $user['id_user'] ,'name' => $user['FIO'], 'email' => $user['Email'], 'gender' => $user["Gender"], 'status' => $user['Status']];
-            $this->view->render('Change user information', $vars);
+            $userInfo = ['id' => $user['id_user'] ,'name' => $user['FIO'], 'email' => $user['Email'], 'gender' => $user["Gender"], 'status' => $user['Status']];
+            $this->view->render('Change user information', $userInfo);
         } else {
             View::errorCode(404);
         }

@@ -1,6 +1,7 @@
 <?php
 namespace repositories;
 
+use core\Database;
 use core\View;
 use Exception;
 class UserRepository
@@ -10,11 +11,12 @@ class UserRepository
 
     public function __construct() {
         $config = $GLOBALS['configInfo'];
-        $this->database = mysqli_connect($config['hostname'],$config['username'],$config['password'],$config['database']);
-        if (mysqli_connect_errno()) {
-            throw new Exception('Error sql connection');
+        $mainDB = Database::getInstance();
+        try {
+            $this->database = $mainDB->connectToDB($config['hostname'], $config['username'], $config['password'], $config['database']);//mysqli_connect($config['hostname'],$config['username'],$config['password'],$config['database']);
+        } catch (\Exception $exception) {
+            echo 'Caught exception: ',  $exception->getMessage(), "\n";
         }
-        $this->tableName = $config['tableName'];
     }
 
     public function addUserToDB($name, $email, $gender, $status) {
@@ -29,7 +31,7 @@ class UserRepository
         return mysqli_query($this->database,$sqlRequest);
     }
 
-    public function getUsersFromDB(): array {
+    public function getUsersFromDB() {
         $sqlRequest = "SELECT * FROM `$this->tableName`;";
         $result = mysqli_query($this->database,$sqlRequest);
         if (!$result) {
@@ -39,17 +41,13 @@ class UserRepository
     }
 
     public function editUserInDB($name,$email,$gender,$status,$id) {
-        $sqlRequest = "UPDATE `$this->tableName` SET `FIO` = '$name', `Email` = '$email', `Gender` = '$gender', `Status` = '$status' WHERE `$this->tableName`.`id_user` = '$id';";
+        $sqlRequest = "UPDATE `$this->tableName` SET `FIO` = '$name', `Email` = '$email', `Gender` = '$gender', `Status` = '$status' WHERE `id_user` = '$id';";
         if (!mysqli_query($this->database,$sqlRequest)) {
             throw new Exception('Error on sql query execution');
         }
     }
 
-    public function sendRequest($sqlRequest): array {
-        $result = mysqli_query($this->database,$sqlRequest);
-        if (!$result) {
-            throw new Exception('Error on sql query execution');
-        }
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    public function getConnection() {
+        return $this->database;
     }
 }
