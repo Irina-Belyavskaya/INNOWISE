@@ -1,38 +1,41 @@
-const checkboxes = document.querySelectorAll('.checkbox-btn');
-const deleteAllBtn = document.querySelector('.delete-all-btn');
-const checkAllBtn = document.querySelector('.check-all-btn');
-const removeAllBtn = document.querySelector('.remove-all-btn');
-let isChecked = false;
+$(document).ready(function() {
+    let isChecked = false;
+    const checkboxes = $('.checkbox-btn');
 
-checkboxes.forEach(checkbox => checkbox.addEventListener('click',() => {
-    if (checkbox.checked)
-        deleteAllBtn.classList.remove('disabled');
-    checkCheckboxes();
-}));
-
-checkAllBtn.addEventListener('click', () => {
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = true;
+    checkboxes.each(function() {
+        $(this).on('click', () => {
+            if ($(this).is(':checked'))
+                $('.delete-all-btn').removeClass('disabled');
+            checkCheckboxes();
+        });
     });
-    deleteAllBtn.classList.remove('disabled');
-});
 
-removeAllBtn.addEventListener('click', () => {
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = false;
+    $('.check-all-btn').on('click', () => {
+        $('.checkbox-btn').each(function() {
+            $(this).prop("checked", true);
+        });
+        $('.delete-all-btn').removeClass('disabled');
     });
-    deleteAllBtn.classList.add('disabled');
-});
 
-function checkCheckboxes() {
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            isChecked = true;
-            break;
+    $('.remove-all-btn').on('click', () => {
+        $('.checkbox-btn').each(function() {
+            $(this).prop("checked", false);
+        });
+        $('.delete-all-btn').addClass('disabled');
+    });
+
+    function checkCheckboxes() {
+        checkboxes.each(function() {
+            if ($(this).is(':checked')) {
+                isChecked = true;
+                return false;
+            }
+            isChecked = false;
+        });
+        if (!isChecked) {
+            $('.delete-all-btn').addClass('disabled');
         }
-        isChecked = false;
     }
-    if (!isChecked) {
-        deleteAllBtn.classList.add('disabled');
-    }
-}
+});
+
+
