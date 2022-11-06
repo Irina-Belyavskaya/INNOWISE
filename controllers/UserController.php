@@ -8,8 +8,12 @@ use core\View;
 class UserController extends Controller
 {
     public function indexAction() {
+        if ($_POST)
+            $checkedId = explode(",", $_POST['checkedId']);
+        else
+            $checkedId = ['-1'];
         $result = $this->pagination();
-        $pageInfo = ['records' => $this->model->getLimitUsers($result['from'], $result['limit']), 'count' => $result['count'], 'currentPage' => $result['page']];
+        $pageInfo = ['records' => $this->model->getLimitUsers($result['from'], $result['limit']), 'count' => $result['count'], 'currentPage' => $result['page'],'checkedId' => $checkedId];
         if (!$pageInfo) {
             View::errorCode(500);
         }

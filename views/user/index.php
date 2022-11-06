@@ -2,6 +2,10 @@
 <div class="arrows">
     <a href="#" class="btn-nav btn-nav-left" role="button"><i class="fa fa-arrow-left"></i></a>
     <a href="#" class="btn-nav btn-nav-right" role="button"><i class="fa fa-arrow-right"></i></a>
+    <form id="paginationForm" method="post">
+        <input type="text" name="checkedId" class="info-hidden-arrow" value="test" hidden>
+        <input type="text" name="previousCheckedId" class="info-hidden-previous" value="<?=implode(",",$checkedId)?>" hidden>
+    </form>
 </div>
 <div class="wrap-btn">
     <a href="#" class="btn btn-primary check-all-btn mb-2"><span>Check all</span></a>
@@ -29,7 +33,8 @@
         <tr scope="row">
             <td>
                 <div>
-                    <input class="form-check-input checkbox-btn" type="checkbox" id="checkboxNoLabel" aria-label="..." data-id="<?=$record['id_user']?>">
+                    <input class="form-check-input checkbox-btn" type="checkbox" id="checkboxNoLabel" aria-label="..." data-id="<?=$record['id_user']?>"
+                        <?php if(in_array($record['id_user'],$checkedId)) echo 'checked';?>>
                 </div>
             </td>
             <?php foreach ($record as $value) : ?>
@@ -63,6 +68,7 @@
         </div>
     </div>
 </div>
+<!--<p><?php /*var_dump($checkedId);*/?></p>-->
 <script src="views/js/pagination.js"></script>
 <script type="module" src="views/js/deleteUser.js"></script>
 <script type="module" src="views/js/changeInfo.js"></script>
