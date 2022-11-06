@@ -6,7 +6,11 @@
 <div class="wrap-btn">
     <a href="#" class="btn btn-primary check-all-btn mb-2"><span>Check all</span></a>
     <a href="#" class="btn btn-primary remove-all-btn mb-2"><span>Remove all</span></a>
-    <a href="#" class="btn btn-primary delete-all-btn mb-2 disabled" ><span>Delete all</span></a>
+<!--    <a href="delete" class="btn btn-primary delete-all-btn mb-2 disabled"><span>Delete all</span></a>-->
+    <form action="delete" id="deleteAllForm" method="post">
+        <input type="text" name="usersId" class="info-hidden" value="hi" hidden>
+        <input type="submit" class="btn btn-primary delete-all-btn mb-2 disabled" value="Delete all">
+    </form>
     <a href="add" class="btn btn-primary btn-add mb-2" role="button"><span>Add user</span></a>
 </div>
 <table class="table table-bordered table-dark table-hover">
@@ -25,7 +29,7 @@
         <tr scope="row">
             <td>
                 <div>
-                    <input class="form-check-input checkbox-btn" type="checkbox" id="checkboxNoLabel" value="" aria-label="...">
+                    <input class="form-check-input checkbox-btn" type="checkbox" id="checkboxNoLabel" aria-label="..." data-id="<?=$record['id_user']?>">
                 </div>
             </td>
             <?php foreach ($record as $value) : ?>
