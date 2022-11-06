@@ -1,17 +1,33 @@
 <h1 class="text-primary">Database</h1>
-<table class="table table-bordered table-dark table-hover" style="margin-top: 50px;">
+<div class="arrows">
+    <a href="#" class="btn-nav btn-nav-left" role="button"><i class="fa fa-arrow-left"></i></a>
+    <a href="#" class="btn-nav btn-nav-right" role="button"><i class="fa fa-arrow-right"></i></a>
+</div>
+<div class="wrap-btn">
+    <a href="#" class="btn btn-primary check-all-btn mb-2"><span>Check all</span></a>
+    <a href="#" class="btn btn-primary remove-all-btn mb-2"><span>Remove all</span></a>
+    <a href="#" class="btn btn-primary delete-all-btn mb-2 disabled" ><span>Delete all</span></a>
+    <a href="add" class="btn btn-primary btn-add mb-2" role="button"><span>Add user</span></a>
+</div>
+<table class="table table-bordered table-dark table-hover">
     <thead>
-        <tr>
-            <th scope="col">№</th>
-            <th scope="col">FIO</th>
-            <th scope="col">Email</th>
-            <th scope="col">Gender</th>
-            <th scope="col">Status</th>
-            <th scope="col">Option</th>
-        </tr>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">№</th>
+        <th scope="col">FIO</th>
+        <th scope="col">Email</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Status</th>
+        <th scope="col">Option</th>
+    </tr>
     </thead>
     <?php foreach ($records as $record) : ?>
         <tr scope="row">
+            <td>
+                <div>
+                    <input class="form-check-input checkbox-btn" type="checkbox" id="checkboxNoLabel" value="" aria-label="...">
+                </div>
+            </td>
             <?php foreach ($record as $value) : ?>
                 <td>
                     <?php echo $value ?>
@@ -26,11 +42,6 @@
         </tr>
     <?php endforeach ;?>
 </table>
-<div class="wrap-btn">
-    <a href="#" class="btn-nav btn-nav-left" role="button"><i class="fa fa-arrow-left"></i></a>
-    <a href="add" class="btn btn-primary btn-add" role="button"><span>Add user</span></a>
-    <a href="#" class="btn-nav btn-nav-right" role="button"><i class="fa fa-arrow-right"></i></a>
-</div>
 <div id="count" data-count="<?=$count?>" data-current="<?=$currentPage?>"></div>
 <!-- Modal window -->
 <div class="modal fade" id="modal" tabindex="-1">
@@ -51,3 +62,4 @@
 <script src="views/js/pagination.js"></script>
 <script type="module" src="views/js/deleteUser.js"></script>
 <script type="module" src="views/js/changeInfo.js"></script>
+<script type="module" src="views/js/checkbox.js"></script>
