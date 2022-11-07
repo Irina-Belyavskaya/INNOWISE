@@ -8,8 +8,9 @@ use core\View;
 class UserController extends Controller
 {
     public function indexAction() {
+        $checkedId = $this->getCheckedIds();
         $result = $this->pagination();
-        $pageInfo = ['records' => $this->model->getLimitUsers($result['from'], $result['limit']), 'count' => $result['count'], 'currentPage' => $result['page']];
+        $pageInfo = ['records' => $this->model->getLimitUsers($result['from'], $result['limit']), 'count' => $result['count'], 'currentPage' => $result['page'],'checkedId' => $checkedId];
         if (!$pageInfo) {
             View::errorCode(500);
         }
@@ -67,9 +68,23 @@ class UserController extends Controller
     }
 
     public function deleteAction() {
-        if (!$this->model->deleteUser($_GET['id_user'])) {
-            View::errorCode(404);
+        if (isset($_POST['usersId'])) {
+            $ids = explode(",",$_POST['usersId']);
+            foreach ($ids as $id) {
+                if (!$this->model->deleteUser($id)) {
+                    View::errorCode(404);
+                }
+            }
+        }
+        if (isset($_GET['id_user'])) {
+            if (!$this->model->deleteUser($_GET['id_user'])) {
+                View::errorCode(404);
+            }
         }
         $this->view->redirect('/' . $GLOBALS['baseUrl']);
+    }
+
+    private function getCheckedIds() {
+        return $_POST ? explode(",", $_POST['checkedId']) : [''];
     }
 }

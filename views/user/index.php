@@ -1,17 +1,42 @@
 <h1 class="text-primary">Database</h1>
-<table class="table table-bordered table-dark table-hover" style="margin-top: 50px;">
+<div class="arrows">
+    <a href="#" class="btn-nav btn-nav-left" role="button"><i class="fa fa-arrow-left"></i></a>
+    <a href="#" class="btn-nav btn-nav-right" role="button"><i class="fa fa-arrow-right"></i></a>
+    <form id="paginationForm" method="post">
+        <input type="text" name="checkedId" class="info-hidden-arrow" value="test" hidden>
+        <input type="text" name="previousCheckedId" class="info-hidden-previous" value="<?=implode(",",$checkedId)?>" hidden>
+    </form>
+</div>
+<div class="wrap-btn">
+    <a href="#" class="btn btn-primary check-all-btn mb-2"><span>Check all</span></a>
+    <a href="#" class="btn btn-primary remove-all-btn mb-2"><span>Remove all</span></a>
+<!--    <a href="delete" class="btn btn-primary delete-all-btn mb-2 disabled"><span>Delete all</span></a>-->
+    <form action="delete" id="deleteAllForm" method="post">
+        <input type="text" name="usersId" class="info-hidden" value="hi" hidden>
+        <input type="submit" class="btn btn-primary delete-all-btn mb-2 disabled" value="Delete all">
+    </form>
+    <a href="add" class="btn btn-primary btn-add mb-2" role="button"><span>Add user</span></a>
+</div>
+<table class="table table-bordered table-dark table-hover">
     <thead>
-        <tr>
-            <th scope="col">№</th>
-            <th scope="col">FIO</th>
-            <th scope="col">Email</th>
-            <th scope="col">Gender</th>
-            <th scope="col">Status</th>
-            <th scope="col">Option</th>
-        </tr>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">№</th>
+        <th scope="col">FIO</th>
+        <th scope="col">Email</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Status</th>
+        <th scope="col">Option</th>
+    </tr>
     </thead>
     <?php foreach ($records as $record) : ?>
         <tr scope="row">
+            <td>
+                <div>
+                    <input class="form-check-input checkbox-btn" type="checkbox" id="checkboxNoLabel" aria-label="..." data-id="<?=$record['id_user']?>"
+                        <?php if(in_array($record['id_user'],$checkedId)) echo 'checked';?>>
+                </div>
+            </td>
             <?php foreach ($record as $value) : ?>
                 <td>
                     <?php echo $value ?>
@@ -26,11 +51,6 @@
         </tr>
     <?php endforeach ;?>
 </table>
-<div class="wrap-btn">
-    <a href="#" class="btn-nav btn-nav-left" role="button"><i class="fa fa-arrow-left"></i></a>
-    <a href="add" class="btn btn-primary btn-add" role="button"><span>Add user</span></a>
-    <a href="#" class="btn-nav btn-nav-right" role="button"><i class="fa fa-arrow-right"></i></a>
-</div>
 <div id="count" data-count="<?=$count?>" data-current="<?=$currentPage?>"></div>
 <!-- Modal window -->
 <div class="modal fade" id="modal" tabindex="-1">
@@ -48,6 +68,8 @@
         </div>
     </div>
 </div>
+<!--<p><?php /*var_dump($checkedId);*/?></p>-->
 <script src="views/js/pagination.js"></script>
 <script type="module" src="views/js/deleteUser.js"></script>
 <script type="module" src="views/js/changeInfo.js"></script>
+<script type="module" src="views/js/checkbox.js"></script>
