@@ -8,10 +8,7 @@ use core\View;
 class UserController extends Controller
 {
     public function indexAction() {
-        if ($_POST)
-            $checkedId = explode(",", $_POST['checkedId']);
-        else
-            $checkedId = ['-1'];
+        $checkedId = $this->getCheckedIds();
         $result = $this->pagination();
         $pageInfo = ['records' => $this->model->getLimitUsers($result['from'], $result['limit']), 'count' => $result['count'], 'currentPage' => $result['page'],'checkedId' => $checkedId];
         if (!$pageInfo) {
@@ -85,5 +82,9 @@ class UserController extends Controller
             }
         }
         $this->view->redirect('/' . $GLOBALS['baseUrl']);
+    }
+
+    private function getCheckedIds() {
+        return $_POST ? explode(",", $_POST['checkedId']) : [''];
     }
 }

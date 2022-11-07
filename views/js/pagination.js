@@ -57,7 +57,7 @@ function getCheckedBoxes() {
     let data = [];
 
     // Get all previous checked ids
-    if (!(previousCheckedId.value === '-1' || previousCheckedId.value === ''))
+    if (!(previousCheckedId.value === ''))
         data = previousCheckedId.value.split(',');
 
     // Add new checked ids
