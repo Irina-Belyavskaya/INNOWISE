@@ -10,11 +10,11 @@ class UserController extends Controller
     public function indexAction() {
         $checkedId = $this->getCheckedIds();
         $result = $this->pagination();
-        $pageInfo = ['records' => $this->model->getLimitUsers($result['from'], $result['limit']), 'count' => $result['count'], 'currentPage' => $result['page'],'checkedId' => $checkedId];
+        $pageInfo = ['title' => 'User Page','records' => $this->model->getLimitUsers($result['from'], $result['limit']), 'count' => $result['count'], 'currentPage' => $result['page'],'checkedId' => $checkedId];
         if (!$pageInfo) {
             View::errorCode(500);
         }
-        $this->view->render('User Page', $pageInfo);
+        $this->view->render($pageInfo);
     }
 
     public function pagination() {
@@ -33,7 +33,7 @@ class UserController extends Controller
     }
 
     public function addAction() {
-        $this->view->render('Add user');
+        $this->view->render(['title' => 'Add user']);
     }
 
     public function createAction () {
@@ -46,8 +46,8 @@ class UserController extends Controller
     public function changeAction() {
         $user = $this->model->findUser($_GET['id_user']);
         if ($user) {
-            $userInfo = ['id' => $user['id_user'] ,'name' => $user['FIO'], 'email' => $user['Email'], 'gender' => $user["Gender"], 'status' => $user['Status']];
-            $this->view->render('Change user information', $userInfo);
+            $userInfo = ['title' => 'Change user information','id' => $user['id_user'] ,'name' => $user['FIO'], 'email' => $user['Email'], 'gender' => $user["Gender"], 'status' => $user['Status']];
+            $this->view->render($userInfo);
         } else {
             View::errorCode(404);
         }
