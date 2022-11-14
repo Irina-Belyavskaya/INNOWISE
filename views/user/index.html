@@ -15,6 +15,12 @@
         <input type="text" name="usersId" class="info-hidden" value="hi" hidden>
         <input type="submit" class="btn btn-primary delete-all-btn mb-2 disabled" value="Delete all">
     </form>
+    <label for="data-source">
+        <select class="selectpicker btn btn-primary" name="data-source" id="data-source" required>
+            <option value="local-db" selected>Local Database</option>
+            <option value="source">Gorest REST API</option>
+        </select>
+    </label>
     <a href="add" class="btn btn-primary btn-add mb-2" role="button"><span>Add user</span></a>
 </div>
 <table class="table table-bordered table-dark table-hover">
