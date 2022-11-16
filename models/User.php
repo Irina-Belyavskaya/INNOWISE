@@ -3,10 +3,16 @@
 namespace models;
 
 use core\Model;
+use repositories\UserRepository;
+
 class User extends Model
 {
-
     const TABLENAME = 'user';
+    public function __construct() {
+        parent::__construct();
+        $this->database = new UserRepository();
+        $this->connectionToDB = $this->database->getConnection();
+    }
 
     public function getUsers() {
         try {

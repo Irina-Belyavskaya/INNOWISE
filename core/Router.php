@@ -29,7 +29,6 @@ class Router
 
         $strings = explode('?',$url);
         $url = trim($strings[0],'/');
-        //$url = $strings[0];
 
         // Read parameters in url
         if (count($strings) !== 1) {

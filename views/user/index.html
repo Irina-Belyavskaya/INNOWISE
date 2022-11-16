@@ -16,9 +16,9 @@
         <input type="submit" class="btn btn-primary delete-all-btn mb-2 disabled" value="Delete all">
     </form>
     <label for="data-source">
-        <select class="selectpicker btn btn-primary" name="data-source" id="data-source" required>
-            <option value="local-db" selected>Local Database</option>
-            <option value="source">Gorest REST API</option>
+        <select class="selectpicker btn btn-primary selectpicker-source" name="data-source" id="data-source" required>
+            <option value="local" {% if source == 'local' %}selected{% endif %}>Local Database</option>
+            <option value="gorest" {% if source == 'gorest' %}selected{% endif %}>Gorest REST API</option>
         </select>
     </label>
     <a href="add" class="btn btn-primary btn-add mb-2" role="button"><span>Add user</span></a>
@@ -74,8 +74,10 @@
         </div>
     </div>
 </div>
+<script src="views/js/goRestApi.js"></script>
 <script src="views/js/pagination.js"></script>
 <script type="module" src="views/js/deleteUser.js"></script>
 <script type="module" src="views/js/changeInfo.js"></script>
 <script type="module" src="views/js/checkbox.js"></script>
+
 

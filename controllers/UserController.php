@@ -3,23 +3,41 @@
 namespace controllers;
 
 use core\Controller;
-use core\Database;
 use core\View;
+use models\API\User;
 class UserController extends Controller
 {
+    private User $apiModel;
+
+    public function __construct($route) {
+       parent::__construct($route);
+       $this->apiModel = new User();
+    }
+
     public function indexAction() {
-        $checkedId = $this->getCheckedIds();
-        $result = $this->pagination();
-        $pageInfo = ['title' => 'User Page','records' => $this->model->getLimitUsers($result['from'], $result['limit']), 'count' => $result['count'], 'currentPage' => $result['page'],'checkedId' => $checkedId];
-        if (!$pageInfo) {
-            View::errorCode(500);
+        if (!isset($_GET['source']))
+            $this->view->redirect('?source=local');
+        switch ($_GET['source']) {
+            case 'gorest':
+                $users = $this->apiModel->getUsers();
+                $result = $this->pagination(count($users));
+                $records = array_slice($users, $result['from'], $result['limit']);
+                $source = 'gorest';
+                break;
+            case 'local':
+                $result = $this->pagination($this->model->getUsersCount());
+                $records = $this->model->getLimitUsers($result['from'], $result['limit']);
+                $source = 'local';
+                break;
         }
+        $checkedId = $this->getCheckedIds();
+        $pageInfo = ['title' => 'User Page', 'records' => $records, 'count' => $result['count'], 'currentPage' => $result['page'], 'checkedId' => $checkedId, 'source' => $source];
         $this->view->render($pageInfo);
     }
 
-    public function pagination() {
+    public function pagination($usersCount) {
         // Get current page
-        if ($_GET) {
+        if (isset($_GET['page'])) {
             $page = $_GET['page'];
         } else {
             $page = 1;
@@ -27,8 +45,11 @@ class UserController extends Controller
 
         // Get users for current page
         $limit = 4;
+        $count = ceil($usersCount / $limit);
+        if ($page > $count)
+            $page = $count;
         $from = ($page - 1) * $limit;
-        $count = ceil($this->model->getUsersCount() / $limit);
+
         return ['from' => $from, 'limit' => $limit, 'count' => $count, 'page' => $page];
     }
 

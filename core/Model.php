@@ -12,9 +12,9 @@ abstract class Model
     public $connectionToDB;
 
     public function __construct() {
-        $this->database = new UserRepository();
+        //$this->database = new UserRepository();
         $this->validation = new Validation();
         $this->mainDB = Database::getInstance();
-        $this->connectionToDB = $this->database->getConnection();
+        //$this->connectionToDB = $this->database->getConnection();
     }
 }
