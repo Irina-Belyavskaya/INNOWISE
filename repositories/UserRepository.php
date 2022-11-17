@@ -13,21 +13,21 @@ class UserRepository
         $config = $GLOBALS['configInfo'];
         $mainDB = Database::getInstance();
         try {
-            $this->database = $mainDB->connectToDB($config['hostname'], $config['username'], $config['password'], $config['database']);//mysqli_connect($config['hostname'],$config['username'],$config['password'],$config['database']);
+            $this->database = $mainDB->connectToDB($config['hostname'], $config['username'], $config['password'], $config['database']);
         } catch (\Exception $exception) {
             echo 'Caught exception: ',  $exception->getMessage(), "\n";
         }
     }
 
     public function addUserToDB($name, $email, $gender, $status) {
-        $sqlRequest = "INSERT INTO `$this->tableName` (`id_user`, `FIO`, `Email`, `Gender`, `Status`) VALUES (NULL, '$name','$email', '$gender', '$status');";
+        $sqlRequest = "INSERT INTO `$this->tableName` (`id`, `name`, `email`, `gender`, `status`) VALUES (NULL, '$name','$email', '$gender', '$status');";
         if (!mysqli_query($this->database,$sqlRequest)) {
             throw new Exception('Error on sql query execution');
         }
     }
 
     public function deleteUserFromDB($id) {
-        $sqlRequest = "DELETE FROM `$this->tableName` WHERE `$this->tableName`.`id_user` = '$id';";
+        $sqlRequest = "DELETE FROM `$this->tableName` WHERE `$this->tableName`.`id` = '$id';";
         return mysqli_query($this->database,$sqlRequest);
     }
 
@@ -41,7 +41,7 @@ class UserRepository
     }
 
     public function editUserInDB($name,$email,$gender,$status,$id) {
-        $sqlRequest = "UPDATE `$this->tableName` SET `FIO` = '$name', `Email` = '$email', `Gender` = '$gender', `Status` = '$status' WHERE `id_user` = '$id';";
+        $sqlRequest = "UPDATE `$this->tableName` SET `name` = '$name', `email` = '$email', `gender` = '$gender', `status` = '$status' WHERE `id` = '$id';";
         if (!mysqli_query($this->database,$sqlRequest)) {
             throw new Exception('Error on sql query execution');
         }

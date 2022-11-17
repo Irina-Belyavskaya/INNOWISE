@@ -21,7 +21,7 @@
             <option value="gorest" {% if source == 'gorest' %}selected{% endif %}>Gorest REST API</option>
         </select>
     </label>
-    <a href="add" class="btn btn-primary btn-add mb-2" role="button"><span>Add user</span></a>
+    <a href="add?source={{ source }}" class="btn btn-primary btn-add mb-2" role="button"><span>Add user</span></a>
 </div>
 <table class="table table-bordered table-dark table-hover">
     <thead>
@@ -39,8 +39,8 @@
     <tr scope="row">
         <td>
             <div>
-                <input class="form-check-input checkbox-btn" type="checkbox" aria-label="..." data-id="{{ record['id_user'] }}"
-                {% for id in checkedId %}  {% if id == record['id_user'] %}checked="checked"{% endif %} {% endfor %} >
+                <input class="form-check-input checkbox-btn" type="checkbox" aria-label="..." data-id="{{ record['id'] }}"
+                {% for id in checkedId %}  {% if id == record['id'] %}checked="checked"{% endif %} {% endfor %} >
             </div>
         </td>
         {% for value in record %}
@@ -50,8 +50,8 @@
         {% endfor %}
         <td>
             <div class="options">
-                <a href="#" class="btn btn-primary change-btn" data-id="{{ record['id_user'] }}"><span>Modify user information</span></a>
-                <a href="#" class="btn btn-primary delete-btn mb-1" data-id="{{ record['id_user'] }}"><span>Delete user</span></a>
+                <a href="#" class="btn btn-primary change-btn" data-id="{{ record['id'] }}"><span>Modify user information</span></a>
+                <a href="#" class="btn btn-primary delete-btn mb-1" data-id="{{ record['id'] }}"><span>Delete user</span></a>
             </div>
         </td>
     </tr>

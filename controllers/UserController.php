@@ -59,15 +59,25 @@ class UserController extends Controller
 
     public function createAction () {
         if (!empty($_POST)) {
-            $this->model->addUser($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status']);
-            $this->view->redirect('/' . $GLOBALS['baseUrl']);
+            switch ($_GET['source']) {
+                case 'gorest':
+                    $this->apiModel->addUser($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status']);
+                    $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source=gorest');
+                    break;
+                case 'local':
+                    $this->model->addUser($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status']);
+                    $this->view->redirect('/' . $GLOBALS['baseUrl']);
+                    break;
+            }
+
         }
+        echo "Empty";
     }
 
     public function changeAction() {
-        $user = $this->model->findUser($_GET['id_user']);
+        $user = $this->model->findUser($_GET['id']);
         if ($user) {
-            $userInfo = ['title' => 'Change user information','id' => $user['id_user'] ,'name' => $user['FIO'], 'email' => $user['Email'], 'gender' => $user["Gender"], 'status' => $user['Status']];
+            $userInfo = ['title' => 'Change user information','id' => $user['id'] ,'name' => $user['name'], 'email' => $user['email'], 'gender' => $user["gender"], 'status' => $user['status']];
             $this->view->render($userInfo);
         } else {
             View::errorCode(404);
@@ -76,14 +86,14 @@ class UserController extends Controller
 
     public function updateAction() {
         if (!empty($_POST)) {
-            $user = $this->model->findUser($_POST['id_user']);
-            if ($user['Email'] !== $_POST['email']) {
+            $user = $this->model->findUser($_POST['id']);
+            if ($user['email'] !== $_POST['email']) {
                 if (!$this->model->checkUniqEmail($_POST['email'])) {
                     $this->view->redirect('/' . $GLOBALS['baseUrl']);
                     return;
                 }
             }
-            $this->model->changeUserInfo($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status'], $_POST['id_user']);
+            $this->model->changeUserInfo($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status'], $_POST['id']);
             $this->view->redirect('/' . $GLOBALS['baseUrl']);
         }
     }
@@ -97,8 +107,8 @@ class UserController extends Controller
                 }
             }
         }
-        if (isset($_GET['id_user'])) {
-            if (!$this->model->deleteUser($_GET['id_user'])) {
+        if (isset($_GET['id'])) {
+            if (!$this->model->deleteUser($_GET['id'])) {
                 View::errorCode(404);
             }
         }

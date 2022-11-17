@@ -12,7 +12,7 @@ deleteBtn.forEach(btn => btn.addEventListener('click',() => {
 
 closeModalBtn.addEventListener('click',() => {
     if (dataToSend !== 0) {
-        document.location.replace(document.location.pathname + 'delete' + '?id_user=' + dataToSend) ;
+        document.location.replace(document.location.pathname + 'delete' + '?id=' + dataToSend) ;
     }
 });
 

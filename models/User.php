@@ -60,7 +60,7 @@ class User extends Model
     public function findUser($id) {
         try {
             $tableName = self::TABLENAME;
-            $sqlRequest = "SELECT * FROM `$tableName` WHERE id_user=" . $id . ";";
+            $sqlRequest = "SELECT * FROM `$tableName` WHERE id=" . $id . ";";
             $result = mysqli_fetch_all($this->mainDB->sendRequest($this->connectionToDB,$sqlRequest), MYSQLI_ASSOC);
             return $result[0];
         } catch (\Exception $exception) {
@@ -72,7 +72,7 @@ class User extends Model
     public function getLimitUsers($from, $limit) {
         try {
             $tableName = self::TABLENAME;
-            $sqlRequest = "SELECT * FROM `$tableName` WHERE id_user>0 ORDER BY id_user DESC LIMIT ".$from.",".$limit.";";
+            $sqlRequest = "SELECT * FROM `$tableName` WHERE id>0 ORDER BY id DESC LIMIT ".$from.",".$limit.";";
             return $this->mainDB->sendRequest($this->connectionToDB,$sqlRequest);
         } catch (\Exception $exception) {
             echo 'Caught exception: ',  $exception->getMessage(), "\n";
