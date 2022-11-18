@@ -14,5 +14,8 @@ formChange.onsubmit = function (evt) {
     if (!submitValid (inputName,inputEmail, genderSelect, statusSelect))
         return;
 
+    const searchString = new URLSearchParams(window.location.search);
+    let source = searchString.get('source');
+    formChange.action = formChange.action + '?source=' + source;
     HTMLFormElement.prototype.submit.call(formChange);
 }

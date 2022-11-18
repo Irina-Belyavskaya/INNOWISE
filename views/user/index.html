@@ -4,15 +4,15 @@
     <a href="#" class="btn-nav btn-nav-left" role="button"><i class="fa fa-arrow-left"></i></a>
     <a href="#" class="btn-nav btn-nav-right" role="button"><i class="fa fa-arrow-right"></i></a>
     <form id="paginationForm" method="post">
-        <input type="text" name="checkedId" class="info-hidden-arrow" value="test" hidden>
-        <input type="text" name="previousCheckedId" class="info-hidden-previous" value="{{ checkedId|join(',') }}" hidden>
+        <input type="text" name="checkedIds" class="info-hidden-arrow" value="test" hidden>
+        <input type="text" name="previousCheckedIds" class="info-hidden-previous" value="{{ checkedIds|join(',') }}" hidden>
     </form>
 </div>
 <div class="wrap-btn">
     <a href="#" class="btn btn-primary check-all-btn mb-2"><span>Check all</span></a>
     <a href="#" class="btn btn-primary remove-all-btn mb-2"><span>Remove all</span></a>
-    <form action="delete" id="deleteAllForm" method="post">
-        <input type="text" name="usersId" class="info-hidden" value="hi" hidden>
+    <form action="delete?source={{ source }}" id="deleteAllForm" method="post">
+        <input type="text" name="usersIds" class="info-hidden" value="hi" hidden>
         <input type="submit" class="btn btn-primary delete-all-btn mb-2 disabled" value="Delete all">
     </form>
     <label for="data-source">
@@ -40,7 +40,7 @@
         <td>
             <div>
                 <input class="form-check-input checkbox-btn" type="checkbox" aria-label="..." data-id="{{ record['id'] }}"
-                {% for id in checkedId %}  {% if id == record['id'] %}checked="checked"{% endif %} {% endfor %} >
+                {% for id in checkedIds %}  {% if id == record['id'] %}checked="checked"{% endif %} {% endfor %} >
             </div>
         </td>
         {% for value in record %}

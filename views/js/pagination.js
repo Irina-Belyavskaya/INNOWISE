@@ -20,8 +20,6 @@ if (page === 1) {
 }
 
 btnNavRight.addEventListener('click',() => {
-    console.log(page)
-    console.log(limitNumOfPages)
     if (page >= limitNumOfPages) {
         btnNavRight.classList.add('isDisabled');
         btnNavRight.href = "javascript: void(0)";
@@ -55,12 +53,12 @@ btnNavLeft.addEventListener('click',() => {
 
 function getCheckedBoxes() {
     const checkboxes = document.querySelectorAll('.checkbox-btn');
-    const previousCheckedId = document.querySelector('.info-hidden-previous');
+    const previousCheckedIds = document.querySelector('.info-hidden-previous');
     let data = [];
 
     // Get all previous checked ids
-    if (!(previousCheckedId.value === ''))
-        data = previousCheckedId.value.split(',');
+    if (!(previousCheckedIds.value === ''))
+        data = previousCheckedIds.value.split(',');
 
     // Add new checked ids
     checkboxes.forEach(function(checkbox) {

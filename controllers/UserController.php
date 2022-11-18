@@ -31,7 +31,7 @@ class UserController extends Controller
                 break;
         }
         $checkedId = $this->getCheckedIds();
-        $pageInfo = ['title' => 'User Page', 'records' => $records, 'count' => $result['count'], 'currentPage' => $result['page'], 'checkedId' => $checkedId, 'source' => $source];
+        $pageInfo = ['title' => 'User Page', 'records' => $records, 'count' => $result['count'], 'currentPage' => $result['page'], 'checkedIds' => $checkedId, 'source' => $source];
         $this->view->render($pageInfo);
     }
 
@@ -69,15 +69,20 @@ class UserController extends Controller
                     $this->view->redirect('/' . $GLOBALS['baseUrl']);
                     break;
             }
-
         }
-        echo "Empty";
     }
 
     public function changeAction() {
-        $user = $this->model->findUser($_GET['id']);
+        $user = [];
+        switch ($_GET['source']) {
+            case 'local':
+                $user = $this->model->findUser($_GET['id']);
+                break;
+            case 'gorest':
+                $user = $this->apiModel->findUser($_GET['id']);
+        }
         if ($user) {
-            $userInfo = ['title' => 'Change user information','id' => $user['id'] ,'name' => $user['name'], 'email' => $user['email'], 'gender' => $user["gender"], 'status' => $user['status']];
+            $userInfo = ['title' => 'Change user information', 'id' => $user['id'], 'name' => $user['name'], 'email' => $user['email'], 'gender' => $user["gender"], 'status' => $user['status'], 'source' => $_GET['source']];
             $this->view->render($userInfo);
         } else {
             View::errorCode(404);
@@ -86,36 +91,58 @@ class UserController extends Controller
 
     public function updateAction() {
         if (!empty($_POST)) {
-            $user = $this->model->findUser($_POST['id']);
-            if ($user['email'] !== $_POST['email']) {
-                if (!$this->model->checkUniqEmail($_POST['email'])) {
-                    $this->view->redirect('/' . $GLOBALS['baseUrl']);
-                    return;
-                }
+            switch ($_GET['source']) {
+                case 'local':
+                    $user = $this->model->findUser($_POST['id']);
+                    if ($user['email'] !== $_POST['email']) {
+                        if (!$this->model->checkUniqEmail($_POST['email'])) {
+                            $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$_GET['source']);
+                            return;
+                        }
+                    }
+                    $this->model->changeUserInfo($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status'], $_POST['id']);
+                    break;
+                case 'gorest':
+                    $this->apiModel->changeUserInfo($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status'], $_POST['id']);
+                    break;
             }
-            $this->model->changeUserInfo($_POST['name'], $_POST['email'], $_POST['gender'], $_POST['status'], $_POST['id']);
-            $this->view->redirect('/' . $GLOBALS['baseUrl']);
+            $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$_GET['source']);
         }
     }
 
     public function deleteAction() {
-        if (isset($_POST['usersId'])) {
-            $ids = explode(",",$_POST['usersId']);
+        if (isset($_POST['usersIds'])) {
+            $ids = explode(",",$_POST['usersIds']);
             foreach ($ids as $id) {
-                if (!$this->model->deleteUser($id)) {
-                    View::errorCode(404);
+                switch ($_GET['source']) {
+                    case 'local':
+                        if (!$this->model->deleteUser($id)) {
+                            View::errorCode(404);
+                        }
+                        break;
+                    case 'gorest':
+                        $this->apiModel->deleteUser($id);
+                        break;
                 }
             }
         }
         if (isset($_GET['id'])) {
-            if (!$this->model->deleteUser($_GET['id'])) {
-                View::errorCode(404);
+            $id = $_GET['id'];
+            switch ($_GET['source']) {
+                case 'local':
+                    if (!$this->model->deleteUser($id)) {
+                        View::errorCode(404);
+                    }
+                    break;
+                case 'gorest':
+                    $this->apiModel->deleteUser($id);
+                    break;
             }
         }
-        $this->view->redirect('/' . $GLOBALS['baseUrl']);
+        $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$_GET['source']);
     }
 
     private function getCheckedIds() {
-        return $_POST ? explode(",", $_POST['checkedId']) : [''];
+        return $_POST ? explode(",", $_POST['checkedIds']) : [''];
     }
 }
