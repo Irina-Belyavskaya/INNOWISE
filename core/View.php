@@ -32,11 +32,15 @@ class View
         exit;
     }
 
-    public static function errorCode($code) {
-        http_response_code($code);
-        $path = 'views/errors/' . $code . '.php';
-        if (file_exists($path)) {
-            require_once $path;
+    public static function error($vars) {
+        $path = 'errors/error.html';
+        try {
+            // Load twig
+            $loader = new \Twig\Loader\FilesystemLoader('views');
+            $twig = new \Twig\Environment($loader);
+            echo $twig->render($path, $vars);
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
         }
         exit;
     }

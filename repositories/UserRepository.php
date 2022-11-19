@@ -15,7 +15,7 @@ class UserRepository
         try {
             $this->database = $mainDB->connectToDB($config['hostname'], $config['username'], $config['password'], $config['database']);
         } catch (\Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
+            return ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
