@@ -23,22 +23,20 @@ class UserController extends Controller
         switch ($_GET['source']) {
             case 'gorest':
                 $users = $this->apiModel->getUsers();
-                if (!isset($users['errorCode'])) {
-                    $result = $this->pagination(count($users));
-                    $records = array_slice($users, $result['from'], $result['limit']);
-                    $source = 'gorest';
-                } else {
+                if (isset($users['errorCode'])) {
                     View::error($users);
                 }
+                $result = $this->pagination(count($users));
+                $records = array_slice($users, $result['from'], $result['limit']);
+                $source = 'gorest';
                 break;
             case 'local':
                 $count = $this->model->getUsersCount();
-                if (!isset($count['errorCode'])) {
-                    $result = $this->pagination($count);
-                    $records = $this->model->getLimitUsers($result['from'], $result['limit']);
-                } else {
+                if (isset($count['errorCode'])) {
                     View::error($count);
                 }
+                $result = $this->pagination($count);
+                $records = $this->model->getLimitUsers($result['from'], $result['limit']);
                 break;
         }
         if (!isset($records['errorCode'])) {
