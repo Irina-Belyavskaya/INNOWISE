@@ -38,14 +38,15 @@ class UserController extends Controller
                 $result = $this->pagination($count);
                 $records = $this->model->getLimitUsers($result['from'], $result['limit']);
                 break;
+            default:
+                $records = ['errorCode' => '404','errorText' => 'Not found'];
         }
-        if (!isset($records['errorCode'])) {
-            $checkedId = $this->getCheckedIds();
-            $pageInfo = ['title' => 'Database', 'records' => $records, 'count' => $result['count'], 'currentPage' => $result['page'], 'checkedIds' => $checkedId, 'source' => $source];
-            $this->view->render($pageInfo);
-        } else {
+        if (isset($records['errorCode'])) {
             View::error($records);
         }
+        $checkedId = $this->getCheckedIds();
+        $pageInfo = ['title' => 'Database', 'records' => $records, 'count' => $result['count'], 'currentPage' => $result['page'], 'checkedIds' => $checkedId, 'source' => $source];
+        $this->view->render($pageInfo);
     }
 
     public function addAction() {
