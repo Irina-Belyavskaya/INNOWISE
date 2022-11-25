@@ -19,15 +19,15 @@ class User extends Model
         try {
             $res = $this->client->request('GET', 'https://gorest.co.in/public/v2/users',
                 ['headers' => $this->headers]);
-            return json_decode($res->getBody(), true);
+            return ['success' => true, 'users' => json_decode($res->getBody(), true)];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
     public function addUser($data) {
         try {
-            $response = $this->client->request('POST', 'https://gorest.co.in/public/v2/users',
+            $this->client->request('POST', 'https://gorest.co.in/public/v2/users',
                 [
                     'json' => [
                         'name' => $data['name'],
@@ -38,9 +38,9 @@ class User extends Model
                     'headers' => $this->headers
                 ]
             );
-            return [];
+            return ['success' => true];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
@@ -57,9 +57,9 @@ class User extends Model
                     'headers' => $this->headers
                 ]
             );
-            return [];
+            return ['success' => true];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
@@ -67,19 +67,19 @@ class User extends Model
         try {
             $res = $this->client->request('GET', 'https://gorest.co.in/public/v2/users/'.$id,
                 ['headers' => $this->headers]);
-            return json_decode($res->getBody(), true);
+            return ['success' => true, 'user' => json_decode($res->getBody(), true)];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
-    public function deleteUser ($id) {
+    public function deleteUser($id) {
         try {
             $this->client->request('DELETE', 'https://gorest.co.in/public/v2/users/'.$id,
                 ['headers' => $this->headers]);
-            return [];
+            return ['success' => true];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 }

@@ -16,20 +16,20 @@ class User extends Model
 
     public function getUsers() {
         try {
-            return $this->database->getUsersFromDB();
+            return ['success' => true , 'users' => $this->database->getUsersFromDB()];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false, 'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
     public function addUser($data) {
         if (!$this->validation->checkUser($data) || !$this->validation->isUniqEmail($data['email'],$this->mainDB,$this->connectionToDB))
-            return ['errorCode' => '422', 'errorText' => 'Unprocessable Entity. Invalid user info.'];
+            return ['success' => false,'errorCode' => '422', 'errorText' => 'Unprocessable Entity. Invalid user info.'];
         try {
             $this->database->addUserToDB($data);
-            return [];
+            return ['success' => true];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false, 'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
@@ -41,12 +41,12 @@ class User extends Model
 
     public function changeUserInfo($data) {
         if (!$this->validation->checkUser($data))
-            return ['errorCode' => '422', 'errorText' => 'Unprocessable Entity. Invalid user info.'];
+            return ['success' => false,'errorCode' => '422', 'errorText' => 'Unprocessable Entity. Invalid user info.'];
         try {
             $this->database->editUserInDB($data);
-            return [];
+            return ['success' => true];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
@@ -61,9 +61,9 @@ class User extends Model
             $tableName = self::TABLENAME;
             $sqlRequest = "SELECT * FROM `$tableName` WHERE id=" . $id . ";";
             $result = mysqli_fetch_all($this->mainDB->sendRequest($this->connectionToDB,$sqlRequest), MYSQLI_ASSOC);
-            return $result[0];
+            return ['success' => true ,'user' => $result[0]];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
@@ -71,9 +71,9 @@ class User extends Model
         try {
             $tableName = self::TABLENAME;
             $sqlRequest = "SELECT * FROM `$tableName` WHERE id>0 ORDER BY id DESC LIMIT ".$from.",".$limit.";";
-            return mysqli_fetch_all($this->mainDB->sendRequest($this->connectionToDB,$sqlRequest), MYSQLI_ASSOC);
+            return ['success' => true , 'users' => mysqli_fetch_all($this->mainDB->sendRequest($this->connectionToDB,$sqlRequest), MYSQLI_ASSOC)];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
@@ -82,9 +82,9 @@ class User extends Model
             $tableName = self::TABLENAME;
             $sqlRequest = "SELECT COUNT(*) as count FROM `$tableName`;";
             $result = mysqli_fetch_all($this->mainDB->sendRequest($this->connectionToDB,$sqlRequest), MYSQLI_ASSOC);
-            return $result[0]['count'];
+            return ['success' => true, 'count' => $result[0]['count']];
         } catch (\Exception $exception) {
-            return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 }

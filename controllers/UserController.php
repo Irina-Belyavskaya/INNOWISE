@@ -22,29 +22,29 @@ class UserController extends Controller
         switch ($_GET['source']) {
             case 'gorest':
                 $users = $this->apiModel->getUsers();
-                if (isset($users['errorCode'])) {
+                if (!$users['success']) {
                     View::error($users);
                 }
-                $result = $this->pagination(count($users));
-                $records = array_slice($users, $result['from'], $result['limit']);
+                $result = $this->pagination(count($users['users']));
+                $records = ['success' => $users['success'],'users' => array_slice($users['users'], $result['from'], $result['limit'])];
                 $source = 'gorest';
                 break;
             case 'local':
                 $count = $this->model->getUsersCount();
-                if (isset($count['errorCode'])) {
+                if (!$count['success']) {
                     View::error($count);
                 }
-                $result = $this->pagination($count);
+                $result = $this->pagination($count['count']);
                 $records = $this->model->getLimitUsers($result['from'], $result['limit']);
                 break;
             default:
-                $records = ['errorCode' => '404','errorText' => 'Not found'];
+                $records = ['success' => false, 'errorCode' => '404','errorText' => 'Not found'];
         }
-        if (isset($records['errorCode'])) {
+        if (!$records['success']) {
             View::error($records);
         }
         $checkedId = $this->getCheckedIds();
-        $pageInfo = ['title' => 'Database', 'records' => $records, 'count' => $result['count'], 'currentPage' => $result['page'], 'checkedIds' => $checkedId, 'source' => $source];
+        $pageInfo = ['title' => 'Database', 'records' => $records['users'], 'count' => $result['count'], 'currentPage' => $result['page'], 'checkedIds' => $checkedId, 'source' => $source];
         $this->view->render($pageInfo);
     }
 
@@ -54,7 +54,7 @@ class UserController extends Controller
 
     public function createAction () {
         if (!empty($_POST)) {
-            $result = [];
+
             $source = 'local';
             switch ($_GET['source']) {
                 case 'gorest':
@@ -64,25 +64,30 @@ class UserController extends Controller
                 case 'local':
                     $result = $this->model->addUser($_POST);
                     break;
+                default:
+                    $result = ['success' => false,'errorCode' => '422', 'errorText' => 'Unprocessable Entity. This email is already in use.'];
             }
-            if ($result)
+            if (!$result['success'])
                 View::error($result);
             $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$source);
         }
     }
 
     public function changeAction() {
-        $user = [];
         switch ($_GET['source']) {
             case 'local':
-                $user = $this->model->findUser($_GET['id']);
+                $result = $this->model->findUser($_GET['id']);
                 break;
             case 'gorest':
-                $user = $this->apiModel->findUser($_GET['id']);
+                $result = $this->apiModel->findUser($_GET['id']);
+                break;
+            default:
+                $result = ['success' => false, 'errorCode' => '404', 'errorText' => 'Not found.'];
         }
-        if (isset($user['errorCode'])) {
-            View::error($user);
+        if (!$result['success']) {
+            View::error($result);
         }
+        $user = $result['user'];
         $userInfo = ['title' => 'Change user information', 'id' => $user['id'], 'name' => $user['name'], 'email' => $user['email'], 'gender' => $user["gender"], 'status' => $user['status'], 'source' => $_GET['source']];
         $this->view->render($userInfo);
     }
@@ -93,6 +98,9 @@ class UserController extends Controller
             switch ($_GET['source']) {
                 case 'local':
                     $user = $this->model->findUser($_POST['id']);
+                    if (!$user['success'])
+                        View::error($result);
+                    $user = $user['user'];
                     if ($user['email'] !== $_POST['email']) {
                         if (!$this->model->checkUniqEmail($_POST['email'])) {
                             View::error(['errorCode' => '422', 'errorText' => 'Unprocessable Entity. This email is already in use.']);
@@ -104,7 +112,7 @@ class UserController extends Controller
                     $result = $this->apiModel->changeUserInfo($_POST);
                     break;
             }
-            if ($result)
+            if (!$result['success'])
                 View::error($result);
             $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$_GET['source']);
         }
@@ -114,7 +122,8 @@ class UserController extends Controller
         if (isset($_POST['usersIds'])) {
             $ids = explode(",",$_POST['usersIds']);
             foreach ($ids as $id) {
-                $this->deleteUserById($id);
+                if ($id !== '')
+                    $this->deleteUserById($id);
             }
         }
         if (isset($_GET['id'])) {
@@ -149,7 +158,7 @@ class UserController extends Controller
                 break;
             case 'gorest':
                 $result = $this->apiModel->deleteUser($id);
-                if (isset($user['errorCode']))
+                if (!$result['success'])
                     View::error($result);
                 break;
         }
