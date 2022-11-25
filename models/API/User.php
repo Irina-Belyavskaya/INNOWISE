@@ -25,15 +25,15 @@ class User extends Model
         }
     }
 
-    public function addUser($newUser) {
+    public function addUser($data) {
         try {
             $response = $this->client->request('POST', 'https://gorest.co.in/public/v2/users',
                 [
                     'json' => [
-                        'name' => $newUser['name'],
-                        'email' => $newUser['email'],
-                        'gender' => $newUser['gender'],
-                        'status' => $newUser['status']
+                        'name' => $data['name'],
+                        'email' => $data['email'],
+                        'gender' => $data['gender'],
+                        'status' => $data['status']
                     ],
                     'headers' => $this->headers
                 ]
@@ -44,15 +44,15 @@ class User extends Model
         }
     }
 
-    public function changeUserInfo($changedUser) {
+    public function changeUserInfo($data) {
         try {
-            $this->client->request('PATCH', 'https://gorest.co.in/public/v2/users/' . $changedUser['id'],
+            $this->client->request('PATCH', 'https://gorest.co.in/public/v2/users/' . $data['id'],
                 [
                     'json' => [
-                        'name' => $changedUser['name'],
-                        'email' => $changedUser['email'],
-                        'gender' => $changedUser['gender'],
-                        'status' => $changedUser['status']
+                        'name' => $data['name'],
+                        'email' => $data['email'],
+                        'gender' => $data['gender'],
+                        'status' => $data['status']
                     ],
                     'headers' => $this->headers
                 ]

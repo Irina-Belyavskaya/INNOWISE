@@ -19,11 +19,11 @@ class UserRepository
         }
     }
 
-    public function addUserToDB($newUser) {
-        $name = $newUser['name'];
-        $email = $newUser['email'];
-        $gender = $newUser['gender'];
-        $status = $newUser['status'];
+    public function addUserToDB($data) {
+        $name = $data['name'];
+        $email = $data['email'];
+        $gender = $data['gender'];
+        $status = $data['status'];
         $sqlRequest = "INSERT INTO `$this->tableName` (`id`, `name`, `email`, `gender`, `status`) VALUES (NULL, '$name','$email', '$gender', '$status');";
         if (!mysqli_query($this->database,$sqlRequest)) {
             throw new Exception('Error on sql query execution');
@@ -44,12 +44,12 @@ class UserRepository
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
-    public function editUserInDB($changedUser) {
-        $name = $changedUser['name'];
-        $email = $changedUser['email'];
-        $gender = $changedUser['gender'];
-        $status = $changedUser['status'];
-        $id = $changedUser['id'];
+    public function editUserInDB($data) {
+        $name = $data['name'];
+        $email = $data['email'];
+        $gender = $data['gender'];
+        $status = $data['status'];
+        $id = $data['id'];
         $sqlRequest = "UPDATE `$this->tableName` SET `name` = '$name', `email` = '$email', `gender` = '$gender', `status` = '$status' WHERE `id` = '$id';";
         if (!mysqli_query($this->database,$sqlRequest)) {
             throw new Exception('Error on sql query execution');
