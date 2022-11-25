@@ -22,11 +22,11 @@ class User extends Model
         }
     }
 
-    public function addUser($name,$email,$gender,$status) {
-        if (!$this->validation->checkUser($email, $name, $gender, $status) || !$this->validation->isUniqEmail($email,$this->mainDB,$this->connectionToDB))
+    public function addUser($newUser) {
+        if (!$this->validation->checkUser($newUser) || !$this->validation->isUniqEmail($newUser['email'],$this->mainDB,$this->connectionToDB))
             return ['errorCode' => '422', 'errorText' => 'Unprocessable Entity. Invalid user info.'];
         try {
-            $this->database->addUserToDB($name,$email,$gender,$status);
+            $this->database->addUserToDB($newUser);
             return [];
         } catch (\Exception $exception) {
             return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
@@ -39,11 +39,11 @@ class User extends Model
         return true;
     }
 
-    public function changeUserInfo($name,$email,$gender,$status,$id) {
-        if (!$this->validation->checkUser($email, $name, $gender, $status))
+    public function changeUserInfo($changedUser) {
+        if (!$this->validation->checkUser($changedUser))
             return ['errorCode' => '422', 'errorText' => 'Unprocessable Entity. Invalid user info.'];
         try {
-            $this->database->editUserInDB($name, $email, $gender, $status, $id);
+            $this->database->editUserInDB($changedUser);
             return [];
         } catch (\Exception $exception) {
             return  ['errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
