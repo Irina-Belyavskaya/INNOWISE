@@ -82,12 +82,11 @@ class UserController extends Controller
             case 'gorest':
                 $user = $this->apiModel->findUser($_GET['id']);
         }
-        if (!isset($user['errorCode'])) {
-            $userInfo = ['title' => 'Change user information', 'id' => $user['id'], 'name' => $user['name'], 'email' => $user['email'], 'gender' => $user["gender"], 'status' => $user['status'], 'source' => $_GET['source']];
-            $this->view->render($userInfo);
-        } else {
+        if (isset($user['errorCode'])) {
             View::error($user);
         }
+        $userInfo = ['title' => 'Change user information', 'id' => $user['id'], 'name' => $user['name'], 'email' => $user['email'], 'gender' => $user["gender"], 'status' => $user['status'], 'source' => $_GET['source']];
+        $this->view->render($userInfo);
     }
 
     public function updateAction() {
@@ -109,8 +108,7 @@ class UserController extends Controller
             }
             if ($error)
                 View::error($error);
-            else
-                $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$_GET['source']);
+            $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$_GET['source']);
         }
     }
 
