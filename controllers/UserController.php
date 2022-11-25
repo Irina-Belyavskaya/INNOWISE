@@ -19,7 +19,6 @@ class UserController extends Controller
             $this->view->redirect('?source=local');
         $source = 'local';
         $result = [];
-        $records = [];
         switch ($_GET['source']) {
             case 'gorest':
                 $users = $this->apiModel->getUsers();
@@ -55,19 +54,19 @@ class UserController extends Controller
 
     public function createAction () {
         if (!empty($_POST)) {
-            $error = [];
+            $result = [];
             $source = 'local';
             switch ($_GET['source']) {
                 case 'gorest':
-                    $error = $this->apiModel->addUser($_POST);
+                    $result = $this->apiModel->addUser($_POST);
                     $source = 'gorest';
                     break;
                 case 'local':
-                    $error = $this->model->addUser($_POST);
+                    $result = $this->model->addUser($_POST);
                     break;
             }
-            if ($error)
-                View::error($error);
+            if ($result)
+                View::error($result);
             $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$source);
         }
     }
@@ -90,7 +89,7 @@ class UserController extends Controller
 
     public function updateAction() {
         if (!empty($_POST)) {
-            $error = [];
+            $result = [];
             switch ($_GET['source']) {
                 case 'local':
                     $user = $this->model->findUser($_POST['id']);
@@ -99,14 +98,14 @@ class UserController extends Controller
                             View::error(['errorCode' => '422', 'errorText' => 'Unprocessable Entity. This email is already in use.']);
                         }
                     }
-                    $error = $this->model->changeUserInfo($_POST);
+                    $result = $this->model->changeUserInfo($_POST);
                     break;
                 case 'gorest':
-                    $error = $this->apiModel->changeUserInfo($_POST);
+                    $result = $this->apiModel->changeUserInfo($_POST);
                     break;
             }
-            if ($error)
-                View::error($error);
+            if ($result)
+                View::error($result);
             $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$_GET['source']);
         }
     }
@@ -149,9 +148,9 @@ class UserController extends Controller
                 }
                 break;
             case 'gorest':
-                $error = $this->apiModel->deleteUser($id);
+                $result = $this->apiModel->deleteUser($id);
                 if (isset($user['errorCode']))
-                    View::error($error);
+                    View::error($result);
                 break;
         }
     }
