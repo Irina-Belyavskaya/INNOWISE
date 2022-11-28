@@ -29,7 +29,6 @@ class Router
 
         $strings = explode('?',$url);
         $url = trim($strings[0],'/');
-        //$url = $strings[0];
 
         // Read parameters in url
         if (count($strings) !== 1) {
@@ -73,13 +72,13 @@ class Router
                     // Call action
                     $controller->$action();
                 } else {
-                    View::errorCode(404);
+                    View::error(['errorCode' => '404', 'errorText' => 'This method does not exist.']);
                 }
             } else {
-                View::errorCode(404);
+                View::error(['errorCode' => '404', 'errorText' => 'This class does not exist.']);
             }
         } else {
-            View::errorCode(404);
+            View::error(['errorCode' => '404', 'errorText' => 'Not found.']);
         }
     }
 }

@@ -3,28 +3,33 @@
 namespace models;
 
 use core\Model;
+use repositories\UserRepository;
+
 class User extends Model
 {
-
     const TABLENAME = 'user';
+    public function __construct() {
+        parent::__construct();
+        $this->database = new UserRepository();
+        $this->connectionToDB = $this->database->getConnection();
+    }
 
     public function getUsers() {
         try {
-            return $this->database->getUsersFromDB();
+            return ['success' => true , 'users' => $this->database->getUsersFromDB()];
         } catch (\Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
-            return [];
+            return  ['success' => false, 'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
-    public function addUser($name,$email,$gender,$status) {
-        $users = $this->getUsers();
-        if (!$this->validation->checkUser($email, $name, $gender, $status) || !$this->validation->isUniqEmail($email,$this->mainDB,$this->connectionToDB))
-            return;
+    public function addUser($data) {
+        if (!$this->validation->checkUser($data) || !$this->validation->isUniqEmail($data['email'],$this->mainDB,$this->connectionToDB))
+            return ['success' => false,'errorCode' => '422', 'errorText' => 'Unprocessable Entity. Invalid user info.'];
         try {
-            $this->database->addUserToDB($name,$email,$gender,$status);
+            $this->database->addUserToDB($data);
+            return ['success' => true];
         } catch (\Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
+            return  ['success' => false, 'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
@@ -34,14 +39,14 @@ class User extends Model
         return true;
     }
 
-    public function changeUserInfo($name,$email,$gender,$status,$id) {
-
-        if (!$this->validation->checkUser($email, $name, $gender, $status))
-            return;
+    public function changeUserInfo($data) {
+        if (!$this->validation->checkUser($data))
+            return ['success' => false,'errorCode' => '422', 'errorText' => 'Unprocessable Entity. Invalid user info.'];
         try {
-            $this->database->editUserInDB($name, $email, $gender, $status, $id);
+            $this->database->editUserInDB($data);
+            return ['success' => true];
         } catch (\Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
@@ -54,23 +59,21 @@ class User extends Model
     public function findUser($id) {
         try {
             $tableName = self::TABLENAME;
-            $sqlRequest = "SELECT * FROM `$tableName` WHERE id_user=" . $id . ";";
+            $sqlRequest = "SELECT * FROM `$tableName` WHERE id=" . $id . ";";
             $result = mysqli_fetch_all($this->mainDB->sendRequest($this->connectionToDB,$sqlRequest), MYSQLI_ASSOC);
-            return $result[0];
+            return ['success' => true ,'user' => $result[0]];
         } catch (\Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
-            return [];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
     public function getLimitUsers($from, $limit) {
         try {
             $tableName = self::TABLENAME;
-            $sqlRequest = "SELECT * FROM `$tableName` WHERE id_user>0 ORDER BY id_user DESC LIMIT ".$from.",".$limit.";";
-            return $this->mainDB->sendRequest($this->connectionToDB,$sqlRequest);
+            $sqlRequest = "SELECT * FROM `$tableName` WHERE id>0 ORDER BY id DESC LIMIT ".$from.",".$limit.";";
+            return ['success' => true , 'users' => mysqli_fetch_all($this->mainDB->sendRequest($this->connectionToDB,$sqlRequest), MYSQLI_ASSOC)];
         } catch (\Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
-            return [];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 
@@ -79,10 +82,9 @@ class User extends Model
             $tableName = self::TABLENAME;
             $sqlRequest = "SELECT COUNT(*) as count FROM `$tableName`;";
             $result = mysqli_fetch_all($this->mainDB->sendRequest($this->connectionToDB,$sqlRequest), MYSQLI_ASSOC);
-            return $result[0]['count'];
+            return ['success' => true, 'count' => $result[0]['count']];
         } catch (\Exception $exception) {
-            echo 'Caught exception: ',  $exception->getMessage(), "\n";
-            return [];
+            return  ['success' => false,'errorCode' => $exception->getCode(), 'errorText' => $exception->getMessage()];
         }
     }
 }

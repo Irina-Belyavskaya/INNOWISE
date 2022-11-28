@@ -6,6 +6,8 @@ $(document).ready(function() {
     const infoHiddenPrevious = $('.info-hidden-previous');
     const modal = new bootstrap.Modal($('#modal'));
 
+    let isDeleteAll = false;
+
     // Check if any checkboxes have been checked before
     checkboxes.each(function() {
         if ($(this).is(':checked')) {
@@ -23,11 +25,11 @@ $(document).ready(function() {
 
             // Delete unchecked ids from array of previous ids
             if (!$(this).is(':checked')) {
-                let previousCheckedId = infoHiddenPrevious.val();
-                previousCheckedId = previousCheckedId.split(",");
-                let index = previousCheckedId.indexOf(String($(this).data("id")));
-                previousCheckedId.splice(index, 1);
-                infoHiddenPrevious.val(previousCheckedId.join());
+                let previousCheckedIds = infoHiddenPrevious.val();
+                previousCheckedIds = previousCheckedIds.split(",");
+                let index = previousCheckedIds.indexOf(String($(this).data("id")));
+                previousCheckedIds.splice(index, 1);
+                infoHiddenPrevious.val(previousCheckedIds.join());
             }
 
             // Check if all checkboxes unchecked then make unpressed button "Delete all"
@@ -58,27 +60,30 @@ $(document).ready(function() {
 
     // Send post request for deletion on event when user pressed button "Confirm"
     closeModalBtn.on('click',() => {
-        let data = getCheckedBoxes();
-        $('.info-hidden').val(data);
-        $( "#deleteAllForm" ).submit();
+        if (isDeleteAll) {
+            let data = getCheckedBoxes();
+            $('.info-hidden').val(data);
+            $("#deleteAllForm").submit();
+        }
     });
 
     // Show modal window for agreement to deletion
     deleteAllBtn.on('click', (event) => {
         event.preventDefault();
+        isDeleteAll = true;
         modal.show();
     });
 
     // Get all checked ids
     function getCheckedBoxes() {
         let data = [];
+        let previousCheckedIds = infoHiddenPrevious.val();
+        previousCheckedIds = previousCheckedIds.split(",");
         checkboxes.each(function() {
-            if ($(this).is(':checked'))
+            if ($(this).is(':checked') && !previousCheckedIds.includes(String($(this).data("id"))))
                 data.push($(this).data("id"));
         });
-        let previousCheckedId = infoHiddenPrevious.val();
-        previousCheckedId = previousCheckedId.split(",");
-        data = data.concat(previousCheckedId);
+        data = data.concat(previousCheckedIds);
         return data;
     }
 
