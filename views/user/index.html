@@ -4,18 +4,24 @@
     <a href="#" class="btn-nav btn-nav-left" role="button"><i class="fa fa-arrow-left"></i></a>
     <a href="#" class="btn-nav btn-nav-right" role="button"><i class="fa fa-arrow-right"></i></a>
     <form id="paginationForm" method="post">
-        <input type="text" name="checkedId" class="info-hidden-arrow" value="test" hidden>
-        <input type="text" name="previousCheckedId" class="info-hidden-previous" value="{{ checkedId|join(',') }}" hidden>
+        <input type="text" name="checkedIds" class="info-hidden-arrow" value="test" hidden>
+        <input type="text" name="previousCheckedIds" class="info-hidden-previous" value="{{ checkedIds|join(',') }}" hidden>
     </form>
 </div>
 <div class="wrap-btn">
     <a href="#" class="btn btn-primary check-all-btn mb-2"><span>Check all</span></a>
     <a href="#" class="btn btn-primary remove-all-btn mb-2"><span>Remove all</span></a>
-    <form action="delete" id="deleteAllForm" method="post">
-        <input type="text" name="usersId" class="info-hidden" value="hi" hidden>
+    <form action="delete?source={{ source }}" id="deleteAllForm" method="post">
+        <input type="text" name="usersIds" class="info-hidden" value="hi" hidden>
         <input type="submit" class="btn btn-primary delete-all-btn mb-2 disabled" value="Delete all">
     </form>
-    <a href="add" class="btn btn-primary btn-add mb-2" role="button"><span>Add user</span></a>
+    <label for="data-source">
+        <select class="selectpicker btn btn-primary selectpicker-source" name="data-source" id="data-source" required>
+            <option value="local" {% if source == 'local' %}selected{% endif %}>Local Database</option>
+            <option value="gorest" {% if source == 'gorest' %}selected{% endif %}>Gorest REST API</option>
+        </select>
+    </label>
+    <a href="add?source={{ source }}" class="btn btn-primary btn-add mb-2" role="button"><span>Add user</span></a>
 </div>
 <table class="table table-bordered table-dark table-hover">
     <thead>
@@ -33,8 +39,8 @@
     <tr scope="row">
         <td>
             <div>
-                <input class="form-check-input checkbox-btn" type="checkbox" aria-label="..." data-id="{{ record['id_user'] }}"
-                {% for id in checkedId %}  {% if id == record['id_user'] %}checked="checked"{% endif %} {% endfor %} >
+                <input class="form-check-input checkbox-btn" type="checkbox" aria-label="..." data-id="{{ record['id'] }}"
+                {% for id in checkedIds %}  {% if id == record['id'] %}checked="checked"{% endif %} {% endfor %} >
             </div>
         </td>
         {% for value in record %}
@@ -44,8 +50,8 @@
         {% endfor %}
         <td>
             <div class="options">
-                <a href="#" class="btn btn-primary change-btn" data-id="{{ record['id_user'] }}"><span>Modify user information</span></a>
-                <a href="#" class="btn btn-primary delete-btn mb-1" data-id="{{ record['id_user'] }}"><span>Delete user</span></a>
+                <a href="#" class="btn btn-primary change-btn" data-id="{{ record['id'] }}"><span>Modify user information</span></a>
+                <a href="#" class="btn btn-primary delete-btn mb-1" data-id="{{ record['id'] }}"><span>Delete user</span></a>
             </div>
         </td>
     </tr>
@@ -68,8 +74,10 @@
         </div>
     </div>
 </div>
+<script src="views/js/goRestApi.js"></script>
 <script src="views/js/pagination.js"></script>
 <script type="module" src="views/js/deleteUser.js"></script>
 <script type="module" src="views/js/changeInfo.js"></script>
 <script type="module" src="views/js/checkbox.js"></script>
+
 

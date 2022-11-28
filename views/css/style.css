@@ -19,7 +19,7 @@ h1 {
 
 .btn-add {
     justify-self: end;
-    width: 30%;
+    width: 100%;
     margin-right: 20px;
 }
 
@@ -30,7 +30,7 @@ h1 {
 .wrap-btn {
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 8% 10% 8% 1fr;
+    grid-template-columns: 8% 10% 8% 1fr 1fr;
     grid-gap: 2vw;
     margin-left: 20px;
 }
@@ -77,6 +77,9 @@ h1:hover {
     transition: all 0.5s;
 }
 
+label[for="data-source"] {
+    width: 20%;
+}
 /*///////////////Add user//////////////////////////*/
 .form-group {
     margin-top: 20px;

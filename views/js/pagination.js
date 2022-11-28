@@ -7,6 +7,7 @@ const limitNumOfPages = Number(hiddenData.dataset.count);
 const currentPage = hiddenData.dataset.current;
 
 let page = Number(currentPage);
+let paramSource = '';
 
 if (page === limitNumOfPages) {
     btnNavRight.classList.add('isDisabled');
@@ -24,7 +25,6 @@ btnNavRight.addEventListener('click',() => {
         btnNavRight.href = "javascript: void(0)";
     } else {
         page += 1;
-
         // Send checked ids  and page number
         sendCheckedIds(page);
     }
@@ -53,12 +53,12 @@ btnNavLeft.addEventListener('click',() => {
 
 function getCheckedBoxes() {
     const checkboxes = document.querySelectorAll('.checkbox-btn');
-    const previousCheckedId = document.querySelector('.info-hidden-previous');
+    const previousCheckedIds = document.querySelector('.info-hidden-previous');
     let data = [];
 
     // Get all previous checked ids
-    if (!(previousCheckedId.value === ''))
-        data = previousCheckedId.value.split(',');
+    if (!(previousCheckedIds.value === ''))
+        data = previousCheckedIds.value.split(',');
 
     // Add new checked ids
     checkboxes.forEach(function(checkbox) {
@@ -75,8 +75,9 @@ function sendCheckedIds(page) {
     const info = document.querySelector('.info-hidden-arrow');
     info.value = getCheckedBoxes();
 
-    // Make url with parameter page number
-    formPagination.action = document.location.pathname + '?page=' + page;
+    // Make url with parameter page number and source
+    paramSource = '&source=' + sourceSelect.value;
+    formPagination.action = document.location.pathname + '?page=' + page + paramSource;
     HTMLFormElement.prototype.submit.call(formPagination);
 }
 
