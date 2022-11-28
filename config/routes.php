@@ -28,4 +28,8 @@ return [
         'controller' => 'user',
         'action' => 'delete'
     ],
+    $baseUrl . '/doc' => [
+        'controller' => 'user',
+        'action' => 'api'
+    ],
 ];

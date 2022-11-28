@@ -1,5 +1,7 @@
 {
     "require": {
-        "twig/twig": "^3.4"
+        "twig/twig": "^3.4",
+        "zircote/swagger-php": "^4.5",
+        "doctrine/annotations": "^1.13"
     }
 }
