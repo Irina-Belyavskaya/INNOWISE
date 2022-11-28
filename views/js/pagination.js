@@ -5,6 +5,7 @@ const hiddenData = document.getElementById('count');
 
 const limitNumOfPages = Number(hiddenData.dataset.count);
 const currentPage = hiddenData.dataset.current;
+const sourceSelect = document.querySelector('.selectpicker-source');
 
 let page = Number(currentPage);
 let paramSource = '';

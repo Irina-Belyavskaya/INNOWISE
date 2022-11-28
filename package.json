@@ -7,7 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,18 @@
   "homepage": "https://github.com/Irina-Belyavskaya/INNOWISE#readme",
   "dependencies": {
     "bootstrap": "^5.2.3",
-    "jquery": "^3.6.1"
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.6.1",
+    "popper.js": "^1.16.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "css-loader": "^6.7.2",
+    "node-sass": "^8.0.0",
+    "postcss-loader": "^7.0.1",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
   }
 }
