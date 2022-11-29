@@ -4,21 +4,21 @@ namespace lib;
 
 class Validation
 {
-    public function checkUser($email, $name, $gender, $status) {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    public function checkUser($userInfo) {
+        if (!filter_var($userInfo['email'], FILTER_VALIDATE_EMAIL)) {
             return false;
         }
 
         $regexp = '/^([а-яА-яa-zA-z]+\s)+([а-яА-яa-zA-z])+$/i';
-        if (!preg_match($regexp, $name)) {
+        if (!preg_match($regexp, $userInfo['name'])) {
             return false;
         }
 
-        if ($gender !== 'male' && $gender !== 'female') {
+        if ($userInfo['gender'] !== 'male' && $userInfo['gender'] !== 'female') {
             return false;
         }
 
-        if ($status !== 'active' && $status !== 'inactive') {
+        if ($userInfo['status'] !== 'active' && $userInfo['status'] !== 'inactive') {
             return false;
         }
 

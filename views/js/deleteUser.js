@@ -1,5 +1,6 @@
 const deleteBtn = document.querySelectorAll('.delete-btn');
 const closeModalBtn = document.getElementById('close-modal');
+const sourceSelect = document.querySelector('.selectpicker-source');
 let dataToSend = 0;
 
 // Content activation id="modal" as modal window
@@ -12,7 +13,7 @@ deleteBtn.forEach(btn => btn.addEventListener('click',() => {
 
 closeModalBtn.addEventListener('click',() => {
     if (dataToSend !== 0) {
-        document.location.replace(document.location.pathname + 'delete' + '?id_user=' + dataToSend) ;
+        document.location.replace(document.location.pathname + 'delete' + '?id=' + dataToSend + '&source=' + sourceSelect.value) ;
     }
 });
 

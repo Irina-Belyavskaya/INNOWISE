@@ -1,6 +1,8 @@
 {
     "require": {
         "twig/twig": "^3.4",
+        "guzzlehttp/guzzle": "^7.5",
+        "ext-json": "*",
         "zircote/swagger-php": "^4.5",
         "doctrine/annotations": "^1.13"
     }
