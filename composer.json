@@ -5,5 +5,8 @@
         "ext-json": "*",
         "zircote/swagger-php": "^4.5",
         "doctrine/annotations": "^1.13"
+    },
+    "autoload": {
+        "classmap": ["models/API","core","lib","controllers"]
     }
 }
