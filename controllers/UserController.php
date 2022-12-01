@@ -7,11 +7,8 @@ use core\View;
 use models\API\User;
 class UserController extends Controller
 {
-    private User $apiModel;
-
     public function __construct($route) {
        parent::__construct($route);
-       $this->apiModel = new User();
     }
 
     public function indexAction() {
@@ -21,7 +18,8 @@ class UserController extends Controller
         $result = [];
         switch ($_GET['source']) {
             case 'gorest':
-                $users = $this->apiModel->getUsers();
+                $apiModel = new User();
+                $users = $apiModel->getUsers();
                 if (!$users['success']) {
                     View::error($users);
                 }
@@ -58,7 +56,8 @@ class UserController extends Controller
             $source = 'local';
             switch ($_GET['source']) {
                 case 'gorest':
-                    $result = $this->apiModel->addUser($_POST);
+                    $apiModel = new User();
+                    $result = $apiModel->addUser($_POST);
                     $source = 'gorest';
                     break;
                 case 'local':
@@ -79,7 +78,8 @@ class UserController extends Controller
                 $result = $this->model->findUser($_GET['id']);
                 break;
             case 'gorest':
-                $result = $this->apiModel->findUser($_GET['id']);
+                $apiModel = new User();
+                $result = $apiModel->findUser($_GET['id']);
                 break;
             default:
                 $result = ['success' => false, 'errorCode' => '404', 'errorText' => 'Not found.'];
@@ -109,7 +109,8 @@ class UserController extends Controller
                     $result = $this->model->changeUserInfo($_POST);
                     break;
                 case 'gorest':
-                    $result = $this->apiModel->changeUserInfo($_POST);
+                    $apiModel = new User();
+                    $result = $apiModel->changeUserInfo($_POST);
                     break;
             }
             if (!$result['success'])
@@ -157,7 +158,8 @@ class UserController extends Controller
                 }
                 break;
             case 'gorest':
-                $result = $this->apiModel->deleteUser($id);
+                $apiModel = new User();
+                $result = $apiModel->deleteUser($id);
                 if (!$result['success'])
                     View::error($result);
                 break;

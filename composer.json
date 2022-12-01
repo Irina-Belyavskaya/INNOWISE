@@ -2,6 +2,12 @@
     "require": {
         "twig/twig": "^3.4",
         "guzzlehttp/guzzle": "^7.5",
-      "ext-json": "*"
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "classmap": ["models/API","core","lib","controllers"]
     }
 }
