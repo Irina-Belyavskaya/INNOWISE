@@ -40,7 +40,7 @@
         <td>
             <div>
                 <input class="form-check-input checkbox-btn" type="checkbox" aria-label="..." data-id="{{ record['id'] }}"
-                {% for id in checkedIds %}  {% if id == record['id'] %}checked="checked"{% endif %} {% endfor %} >
+                       {% for id in checkedIds %}  {% if id == record['id'] %}checked="checked"{% endif %} {% endfor %} >
             </div>
         </td>
         {% for value in record %}
@@ -75,5 +75,3 @@
     </div>
 </div>
 <script src="views/dist/index.js"></script>
-
-
