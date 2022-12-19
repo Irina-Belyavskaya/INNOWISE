@@ -69,7 +69,7 @@ class UserController extends Controller
             }
             if (!$result['success'])
                 View::error($result);
-            $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$source);
+            $this->view->redirect('/' . $GLOBALS['baseUrl'] . '/' .'?source='.$source);
         }
     }
 
@@ -114,7 +114,7 @@ class UserController extends Controller
             }
             if (!$result['success'])
                 View::error($result);
-            $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$_GET['source']);
+            $this->view->redirect('/' . $GLOBALS['baseUrl'] . '/' .'?source='.$_GET['source']);
         }
     }
 
@@ -129,7 +129,7 @@ class UserController extends Controller
         if (isset($_GET['id'])) {
             $this->deleteUserById($_GET['id']);
         }
-        $this->view->redirect('/' . $GLOBALS['baseUrl'].'?source='.$_GET['source']);
+        $this->view->redirect('/' . $GLOBALS['baseUrl'] . '/' .'?source='.$_GET['source']);
     }
 
     private function pagination($usersCount) {
