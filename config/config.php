@@ -5,7 +5,7 @@ global $baseUrl;
 $baseUrl = 'INNOWISE';
 
 global $configInfo;
-$configInfo = ['hostname' => 'localhost',
+$configInfo = ['hostname' => 'db',
     'username' => 'root',
     'password' => '28041972IraBel!',
     'database' => 'innowise',
